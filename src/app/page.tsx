@@ -1,38 +1,35 @@
 import Image from 'next/image';
 import CountdownTimer from '@/components/countdown-timer';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export default function Home() {
   const targetDate = new Date('2026-01-09T00:00:00');
-  const backgroundImage = PlaceHolderImages.find(p => p.id === 'coming-soon-background');
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background text-foreground">
-      {backgroundImage && (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
+      {/* Mobile-sized container with a 9:16 aspect ratio */}
+      <div className="relative w-full max-w-sm aspect-[9/16] overflow-hidden rounded-2xl shadow-2xl bg-background">
         <Image
-          src={backgroundImage.imageUrl}
-          alt={backgroundImage.description}
+          src={'/images/Comingsoon_Bg.webp'}
+          alt={'Coming soon background'}
           fill
-          className="object-cover -z-20"
-          data-ai-hint={backgroundImage.imageHint}
+          className="object-cover"
           priority
         />
-      )}
 
-      <div className="container mx-auto px-4 text-center">
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight font-headline uppercase" style={{ textShadow: '0 2px 10px hsl(var(--background))' }}>
-          Coming Soon
-        </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-foreground/80">
-          We are working hard to bring you something amazing. Stay tuned!
-        </p>
-        <div className="mt-12 md:mt-16">
-          <CountdownTimer targetDate={targetDate} />
+
+
+        {/* Content container */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center p-4 text-center text-white">
+                    <div className="flex-grow flex flex-col items-center justify-end pb-24">
+                      <div className="mt-8">
+              <CountdownTimer targetDate={targetDate} size="small" />
+            </div>
+          </div>
+          <footer className="w-full text-custom-text text-sm">
+            <p>©pcipnuippnucms</p>
+          </footer>
         </div>
       </div>
-       <footer className="absolute bottom-4 text-center w-full text-foreground/50 text-sm">
-        <p>&copy; {new Date().getFullYear()} Countdown Landing. All rights reserved.</p>
-      </footer>
     </main>
   );
 }
