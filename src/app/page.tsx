@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import CountdownTimer from '@/components/countdown-timer';
+import CurvedLoop from '@/components/CurvedLoop';
 
 export default function Home() {
   const targetDate = new Date('2026-01-09T00:00:00');
@@ -19,14 +20,26 @@ export default function Home() {
 
 
         {/* Content container */}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center p-4 text-center text-white">
-                    <div className="flex-grow flex flex-col items-center justify-end pb-24">
-                      <div className="mt-8">
+        <div className="relative z-10 flex h-full flex-col items-center justify-between p-4 text-center text-white">
+          {/* CurvedLoop at the top */}
+          <div className="w-full flex-shrink-0 flex justify-center pt-8">
+            <CurvedLoop
+              marqueeText="COMING SOON ✦ LATIN ✦ LATPEL ✦ REKAN ✦ REKANITA ✦ PC IPNU ✦ PC IPPNU ✦ CIAMIS ✦"
+              speed={3}
+              curveAmount={500}
+              direction="right"
+              interactive={true}
+                                      className="custom-text-style text-custom-text"            />
+          </div>
+
+          {/* CountdownTimer at its previous lower position */}
+          <div className="flex-grow flex flex-col items-center justify-end pb-24">
+            <div>
               <CountdownTimer targetDate={targetDate} size="small" />
             </div>
           </div>
           <footer className="w-full text-custom-text text-sm">
-            <p>©pcipnuippnucms</p>
+            <p>©pcipnuippnucms2025</p>
           </footer>
         </div>
       </div>
