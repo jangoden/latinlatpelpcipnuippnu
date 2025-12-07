@@ -3,8 +3,8 @@
     {
       "id": "coming-soon-background",
       "description": "Abstract background for the coming soon page",
-      "imageUrl": "https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkYXJrJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzY1MDkyNTMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "dark abstract"
+      "imageUrl": "https://storage.googleapis.com/project-spark-b9ef6.appspot.com/static/ed1c15f4-307a-426c-8294-f236f0b40e53",
+      "imageHint": "coming soon"
     }
   ]
 }

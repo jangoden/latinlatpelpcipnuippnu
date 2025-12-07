@@ -13,7 +13,7 @@ export default function Home() {
           src={backgroundImage.imageUrl}
           alt={backgroundImage.description}
           fill
-          className="object-cover -z-20 opacity-30"
+          className="object-cover -z-20"
           data-ai-hint={backgroundImage.imageHint}
           priority
         />
