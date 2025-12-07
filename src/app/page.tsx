@@ -39,7 +39,7 @@ export default function Home() {
             </div>
           </div>
           <footer className="w-full text-custom-text text-sm">
-            <p>©pcipnuippnucms2025</p>
+            <p>© pcipnuippnucms</p>
           </footer>
         </div>
       </div>
