@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import ChatBot from "@/components/chatbot"
 
 export const metadata: Metadata = {
-  title: 'Lakut & Latpel 2024 - PC IPNU Ciamis',
+  title: 'Lakut & Latpel 2026 - PC IPNU Ciamis',
   description: 'Latin & Latpel PC IPNU IPPNU Ciamis 2026',
 };
 
