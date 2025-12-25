@@ -44,6 +44,7 @@ export default function DaftarPage() {
         instansi: '',
         instansi_detail: '',
         status: '',
+        gender: '', // 'ipnu' or 'ippnu'
         nia: '',
         video_link: '',
     });
@@ -144,6 +145,7 @@ export default function DaftarPage() {
 
             // Text Inputs
             if (!formData.nik) missingFields.push("NIK");
+            if (!formData.gender) missingFields.push("Jenis Kelamin (IPNU/IPPNU)");
             if (!formData.username) missingFields.push("Username");
             if (!formData.email) missingFields.push("Email");
             if (!formData.nama) missingFields.push("Nama Lengkap");
@@ -216,6 +218,7 @@ export default function DaftarPage() {
                 phone_number: formData.hp,
                 hobby: formData.hobi,
                 status: formData.status,
+                gender: formData.gender,
                 nia: formData.nia || null,
                 org_level: formData.instansi,
                 org_name: formData.instansi_detail,
@@ -233,13 +236,14 @@ export default function DaftarPage() {
             // 4. Success
             toast({
                 title: "Pendaftaran Berhasil! 🎉",
-                description: "Data Anda telah kami terima. Silakan tunggu informasi selanjutnya.",
+                description: "Data Anda telah kami terima. Anda akan diarahkan ke Group Peserta...",
                 duration: 5000,
             });
 
-            // Optional: Redirect or Reset
-            // router.push('/success'); 
-            // setFormData(...reset...)
+            // Redirect to WhatsApp Group after a brief delay
+            setTimeout(() => {
+                window.location.href = "https://chat.whatsapp.com/CDo9frwW9rpA36SUF8cUpI";
+            }, 2000); // 2 second delay for user to see success message
 
         } catch (error: any) {
             console.error('Registration Error:', error);
@@ -318,6 +322,34 @@ export default function DaftarPage() {
                                                 if (errorMessage) setErrorMessage(null);
                                             }}
                                         />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label>Gender<span className="text-red-500">*</span></Label>
+                                        <div className="flex gap-4">
+                                            <label className={`flex items-center gap-2 px-4 py-3 rounded-xl border cursor-pointer transition-all ${formData.gender === 'ipnu' ? 'bg-green-50 border-green-500 text-green-700' : 'bg-white/50 border-slate-200 hover:bg-slate-50'}`}>
+                                                <input
+                                                    type="radio"
+                                                    name="gender"
+                                                    value="ipnu"
+                                                    checked={formData.gender === 'ipnu'}
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                                    className="w-4 h-4 text-green-600 focus:ring-green-500"
+                                                />
+                                                <span className="font-medium">Rekan (IPNU)</span>
+                                            </label>
+                                            <label className={`flex items-center gap-2 px-4 py-3 rounded-xl border cursor-pointer transition-all ${formData.gender === 'ippnu' ? 'bg-green-50 border-green-500 text-green-700' : 'bg-white/50 border-slate-200 hover:bg-slate-50'}`}>
+                                                <input
+                                                    type="radio"
+                                                    name="gender"
+                                                    value="ippnu"
+                                                    checked={formData.gender === 'ippnu'}
+                                                    onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                                    className="w-4 h-4 text-green-600 focus:ring-green-500"
+                                                />
+                                                <span className="font-medium">Rekanita (IPPNU)</span>
+                                            </label>
+                                        </div>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="username">Username <span className="text-red-500">*</span></Label>

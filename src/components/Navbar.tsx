@@ -114,7 +114,7 @@ export function Navbar() {
                                     <SheetTitle className="flex items-center gap-3">
                                         <div className="relative w-12 h-12">
                                             <Image
-                                                src="/images/LOGO.webp"
+                                                src="/images/logo.webp"
                                                 alt="IPNU Ciamis Logo"
                                                 width={48}
                                                 height={48}
