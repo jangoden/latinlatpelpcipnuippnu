@@ -55,7 +55,7 @@ export default function Home() {
           {/* Header */}
           <div className="mb-16 text-center animate-fade-in-up">
             <span className="inline-block py-1 px-3 rounded-full bg-blue-50 text-primary text-sm font-bold mb-4 tracking-wide">
-              KERANGKA ACUAN KERJA
+              KERANGKA ACUAN KEGIATAN
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-2">
               TERM OF REFERENCE (TOR)
@@ -85,7 +85,7 @@ export default function Home() {
                   Ikatan Pelajar Nahdlatul Ulama (IPNU) dan Ikatan Pelajar Putri Nahdlatul Ulama (IPPNU) merupakan organisasi kaderisasi di lingkungan Nahdlatul Ulama yang berfungsi sebagai wadah perjuangan pelajar dan santri. Titik tumpu utama keberlangsungan organisasi terletak pada proses kaderisasi yang sehat, terstruktur, dan berkelanjutan.
                 </p>
                 <div className="pl-4 border-l-4 border-primary/30 my-6 italic text-slate-700 font-medium bg-slate-50/50 p-4 rounded-r-xl">
-                  "Jantung dari proses kaderisasi adalah ketersediaan para penggerak kaderisasi."
+                  "Jantung dari proses Organisasi adalah ketersediaan para penggerak kaderisasi."
                 </div>
                 <p>
                   Merekalah yang bertanggung jawab mengawal, merancang, dan melaksanakan pelatihan-pelatihan formal maupun non-formal di setiap tingkatan pimpinan. Tanpa adanya instruktur dan pelatih yang mumpuni, proses kaderisasi akan berjalan stagnan dan kehilangan arah.
