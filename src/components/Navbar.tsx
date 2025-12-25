@@ -57,7 +57,7 @@ export function Navbar() {
                         <div className="relative w-12 h-12 group-hover:scale-105 transition-transform duration-300">
                             <Image
                                 src="/images/logo.webp"
-                                alt="IPNU Ciamis Logo"
+                                alt="IPNU IPPNU Ciamis Logo"
                                 width={48}
                                 height={48}
                                 className="object-contain w-full h-full"
@@ -121,7 +121,7 @@ export function Navbar() {
                                                 className="object-contain w-full h-full"
                                             />
                                         </div>
-                                        IPNU Ciamis
+                                        IPNU IPPNU Ciamis
                                     </SheetTitle>
                                 </SheetHeader>
 
