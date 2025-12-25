@@ -26,7 +26,7 @@ export default function Home() {
               showBorder={false}
               className="font-bebas-neue"
             >
-              Lakut & Latpel 2026
+              Latin & Latpel 2026
             </GradientText>
           </h1>
           <p className="text-lg md:text-3xl text-slate-700 dark:text-slate-200 font-lobster font-normal italic max-w-5xl mx-auto leading-relaxed tracking-wide">

@@ -218,7 +218,7 @@ export default function DaftarPage() {
                             Formulir Pendaftaran
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400 text-lg max-w-xl mx-auto">
-                            Lengkapi data diri dan persyaratan administrasi Anda untuk bergabung dalam Lakut & Latpel 2025.
+                            Lengkapi data diri dan persyaratan administrasi Anda untuk bergabung dalam Latin & Latpel 2025.
                         </p>
                     </div>
 

@@ -68,7 +68,7 @@ export function Navbar() {
                                 PC IPNU IPPNU CIAMIS
                             </span>
                             <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
-                                Lakut & Latpel
+                                Latin & Latpel
                             </span>
                         </div>
                     </Link>
