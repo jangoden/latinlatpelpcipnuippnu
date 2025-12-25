@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import ChatBot from "@/components/chatbot"
 
 export const metadata: Metadata = {
-  title: 'PC IPNU IPPNU CIAMIS',
+  title: 'Lakut & Latpel 2024 - PC IPNU Ciamis',
   description: 'Latin & Latpel ipnu ippnu ciamis coming soon!',
 };
 
@@ -14,13 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="id" className="light">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary relative">
         {children}
         <Toaster />
         <ChatBot />

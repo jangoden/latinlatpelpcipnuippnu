@@ -1,4 +1,4 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
@@ -13,8 +13,18 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
         code: ['monospace'],
+        display: ["Inter", "sans-serif"],
+        'bebas-neue': ["Bebas Neue", "sans-serif"],
+        parisienne: ["Parisienne", "cursive"],
+        outfit: ["Outfit", "sans-serif"],
+        lobster: ["Lobster Two", "cursive"]
       },
       colors: {
+        "primary": "#195de6",
+        "background-light": "#f5f5f7", // Apple-ish off-white
+        "background-dark": "#111621",
+        "soft-green": "#e3f2e6",
+        "muted-gold": "#f5efe0",
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -24,10 +34,6 @@ export default {
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
-        },
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
@@ -68,9 +74,17 @@ export default {
         },
       },
       borderRadius: {
-        lg: 'var(--radius)',
+        lg: "0.5rem",
+        xl: "0.75rem",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
+        full: "9999px",
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      boxShadow: {
+        'apple': '0 10px 40px -10px rgba(0,0,0,0.08)',
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
       },
       keyframes: {
         'accordion-down': {
@@ -89,10 +103,36 @@ export default {
             height: '0',
           },
         },
+        'fade-in-up': {
+          'from': {
+            opacity: '0',
+            transform: 'translateY(20px)'
+          },
+          'to': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        },
+        blob: {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1)",
+          },
+          "33%": {
+            transform: "translate(30px, -50px) scale(1.1)",
+          },
+          "66%": {
+            transform: "translate(-20px, 20px) scale(0.9)",
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1)",
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        "fade-in-up": "fade-in-up 1s ease-out forwards",
+        "blob": "blob 7s infinite",
       },
     },
   },
