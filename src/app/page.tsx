@@ -522,7 +522,7 @@ export default function Home() {
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full filter blur-[80px]" />
             <div className="relative z-10 flex flex-col items-center">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                Siap Menjadi Pemimpin?
+                Are you ready to level up?
               </h2>
               <p className="text-slate-300 text-lg md:text-xl max-w-xl mb-10 font-medium">
                 Jangan lewatkan kesempatan emas ini. Kuota terbatas untuk kader
@@ -533,7 +533,7 @@ export default function Home() {
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
               <p className="mt-8 text-sm text-slate-400">
-                Pendaftaran ditutup 20 Oktober 2024
+                Pendaftaran ditutup 03 Januari 2026
               </p>
             </div>
           </div>
