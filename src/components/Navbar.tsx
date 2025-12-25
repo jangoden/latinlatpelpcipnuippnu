@@ -56,7 +56,7 @@ export function Navbar() {
                     >
                         <div className="relative w-12 h-12 group-hover:scale-105 transition-transform duration-300">
                             <Image
-                                src="/images/LOGO.webp"
+                                src="/images/logo.webp"
                                 alt="IPNU Ciamis Logo"
                                 width={48}
                                 height={48}
