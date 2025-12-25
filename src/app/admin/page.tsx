@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { Users, Clock, CheckCircle, XCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 type Stats = {
     total: number;
-    approved: number;
     ipnu: number;
     ippnu: number;
 };
@@ -16,19 +16,42 @@ type Stats = {
 type Registrant = {
     id: string;
     full_name: string;
-    nik: string;
+    gender: string;
     org_name: string;
     created_at: string;
-    registration_status: string;
+    instagram_video_link: string;
+    file_urls: { [key: string]: string } | null;
 };
 
 export default function AdminDashboard() {
-    const [stats, setStats] = useState<Stats>({ total: 0, pending: 0, approved: 0, rejected: 0 });
+    const { toast } = useToast();
+    const [stats, setStats] = useState<Stats>({ total: 0, ipnu: 0, ippnu: 0 });
     const [recentRegistrants, setRecentRegistrants] = useState<Registrant[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchData();
+
+        // Realtime subscription
+        const channel = supabase
+            .channel('admin-dashboard-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'registrants'
+                },
+                (payload) => {
+                    console.log('Change received!', payload);
+                    fetchData();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, []);
 
     const fetchData = async () => {
@@ -37,28 +60,32 @@ export default function AdminDashboard() {
             // Fetch all registrants for stats
             const { data: allData, error: allError } = await supabase
                 .from('registrants')
-                .select('id, registration_status, gender');
+                .select('id, gender');
 
             if (allError) throw allError;
 
             const total = allData?.length || 0;
-            const approved = allData?.filter(r => r.registration_status === 'approved').length || 0;
             const ipnu = allData?.filter(r => r.gender === 'ipnu').length || 0;
             const ippnu = allData?.filter(r => r.gender === 'ippnu').length || 0;
 
-            setStats({ total, approved, ipnu, ippnu });
+            setStats({ total, ipnu, ippnu });
 
             // Fetch recent 5 registrants
             const { data: recentData, error: recentError } = await supabase
                 .from('registrants')
-                .select('id, full_name, nik, org_name, created_at, registration_status')
+                .select('id, full_name, gender, org_name, created_at, instagram_video_link, file_urls')
                 .order('created_at', { ascending: false })
                 .limit(5);
 
             if (recentError) throw recentError;
             setRecentRegistrants(recentData || []);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+        } catch (error: any) {
+            console.error('Error fetching data:', JSON.stringify(error, null, 2));
+            toast({
+                variant: 'destructive',
+                title: 'Gagal memuat data',
+                description: error.message || 'Terjadi kesalahan saat mengambil data. Cek koneksi atau RLS.',
+            });
         } finally {
             setLoading(false);
         }
@@ -66,20 +93,14 @@ export default function AdminDashboard() {
 
     const statCards = [
         { label: 'Total Pendaftar', value: stats.total, icon: Users, color: 'bg-blue-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20' },
-        { label: 'Disetujui', value: stats.approved, icon: CheckCircle, color: 'bg-emerald-500', bgColor: 'bg-emerald-50 dark:bg-emerald-900/20' },
         { label: 'Total IPNU', value: stats.ipnu, icon: Users, color: 'bg-green-600', bgColor: 'bg-green-50 dark:bg-green-900/20' },
         { label: 'Total IPPNU', value: stats.ippnu, icon: Users, color: 'bg-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20' },
     ];
 
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'approved':
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Disetujui</span>;
-            case 'rejected':
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-700">Ditolak</span>;
-            default:
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">Pending</span>;
-        }
+    const getGenderLabel = (gender: string) => {
+        if (gender === 'ipnu') return 'IPNU';
+        if (gender === 'ippnu') return 'IPPNU';
+        return '-';
     };
 
     if (loading) {
@@ -99,7 +120,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {statCards.map((card) => (
                     <div key={card.label} className={`${card.bgColor} rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50`}>
                         <div className="flex items-center justify-between">
@@ -130,29 +151,53 @@ export default function AdminDashboard() {
                     <table className="w-full">
                         <thead className="bg-slate-50 dark:bg-slate-800/50">
                             <tr>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">No</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">NIK</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Asal</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Tanggal</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Gender</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Delegasi</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Instagram</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Esai</th>
+                                <th className="px-6 py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                             {recentRegistrants.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-8 text-center text-slate-500">
+                                    <td colSpan={7} className="px-6 py-8 text-center text-slate-500">
                                         Belum ada data pendaftar.
                                     </td>
                                 </tr>
                             ) : (
-                                recentRegistrants.map((registrant) => (
+                                recentRegistrants.map((registrant, index) => (
                                     <tr key={registrant.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                                        <td className="px-6 py-4 text-sm text-slate-500">{index + 1}</td>
                                         <td className="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">{registrant.full_name}</td>
-                                        <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{registrant.nik}</td>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${registrant.gender === 'ipnu' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
+                                                {getGenderLabel(registrant.gender)}
+                                            </span>
+                                        </td>
                                         <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{registrant.org_name || '-'}</td>
-                                        <td className="px-6 py-4">{getStatusBadge(registrant.registration_status)}</td>
-                                        <td className="px-6 py-4 text-sm text-slate-500">
-                                            {new Date(registrant.created_at).toLocaleDateString('id-ID')}
+                                        <td className="px-6 py-4 text-sm">
+                                            {registrant.instagram_video_link ? (
+                                                <Link href={registrant.instagram_video_link} target="_blank" className="text-blue-600 hover:underline text-xs flex items-center gap-1">
+                                                    Lihat
+                                                </Link>
+                                            ) : '-'}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm">
+                                            {registrant.file_urls && registrant.file_urls['essay'] ? (
+                                                <Link href={registrant.file_urls['essay']} target="_blank" className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
+                                                    Unduh
+                                                </Link>
+                                            ) : '-'}
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <Link href={`/admin/pendaftar/${registrant.id}`}>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-blue-600">
+                                                    <ArrowRight className="w-4 h-4" />
+                                                </Button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))

@@ -3,27 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import * as XLSX from 'xlsx';
 import {
     Search,
-    Filter,
     Eye,
-    CheckCircle,
-    XCircle,
     Trash2,
     Loader2,
     ChevronLeft,
     ChevronRight,
+    FileDown,
     Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 
 type Registrant = {
@@ -31,41 +23,68 @@ type Registrant = {
     full_name: string;
     nik: string;
     email: string;
-    org_level: string;
+    gender: string;
+    nia?: string;
     org_name: string;
+    instagram_video_link: string;
+    file_urls: { [key: string]: string } | null;
     created_at: string;
-    registration_status: string;
+    // Additional fields for Export
+    username?: string;
+    birth_place?: string;
+    birth_date?: string;
+    address?: string;
+    province?: string;
+    regency?: string;
+    district?: string;
+    village?: string;
+    phone_number?: string;
+    hobby?: string;
+    status?: string;
+    org_level?: string;
 };
 
 export default function PendaftarPage() {
     const { toast } = useToast();
     const [registrants, setRegistrants] = useState<Registrant[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isExporting, setIsExporting] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
     const itemsPerPage = 10;
 
     useEffect(() => {
         fetchRegistrants();
-    }, [currentPage, statusFilter, searchQuery]);
+
+        // Realtime subscription
+        const channel = supabase
+            .channel('registrants-list-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'registrants'
+                },
+                (payload) => {
+                    console.log('Change received!', payload);
+                    fetchRegistrants();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [currentPage, searchQuery]);
 
     const fetchRegistrants = async () => {
         setLoading(true);
         try {
             let query = supabase
                 .from('registrants')
-                .select('id, full_name, nik, email, org_level, org_name, created_at, registration_status', { count: 'exact' });
-
-            // Apply status filter
-            if (statusFilter !== 'all') {
-                if (statusFilter === 'pending') {
-                    query = query.or('registration_status.is.null,registration_status.eq.pending');
-                } else {
-                    query = query.eq('registration_status', statusFilter);
-                }
-            }
+                .select('id, full_name, nik, email, gender, nia, org_name, instagram_video_link, file_urls, created_at', { count: 'exact' });
 
             // Apply search filter
             if (searchQuery) {
@@ -83,34 +102,15 @@ export default function PendaftarPage() {
             if (error) throw error;
             setRegistrants(data || []);
             setTotalCount(count || 0);
-        } catch (error) {
-            console.error('Error fetching registrants:', error);
+        } catch (error: any) {
+            console.error('Error fetching registrants:', JSON.stringify(error, null, 2));
+            toast({
+                variant: 'destructive',
+                title: 'Gagal memuat data',
+                description: error.message || 'Terjadi kesalahan saat mengambil data.',
+            });
         } finally {
             setLoading(false);
-        }
-    };
-
-    const handleStatusUpdate = async (id: string, status: 'approved' | 'rejected') => {
-        try {
-            const { error } = await supabase
-                .from('registrants')
-                .update({ registration_status: status })
-                .eq('id', id);
-
-            if (error) throw error;
-
-            toast({
-                title: status === 'approved' ? "Pendaftar Disetujui ✅" : "Pendaftar Ditolak ❌",
-                description: "Status pendaftar berhasil diperbarui.",
-            });
-            fetchRegistrants();
-        } catch (error) {
-            console.error('Error updating status:', error);
-            toast({
-                variant: "destructive",
-                title: "Gagal memperbarui status",
-                description: "Terjadi kesalahan.",
-            });
         }
     };
 
@@ -140,26 +140,92 @@ export default function PendaftarPage() {
         }
     };
 
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'approved':
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-700">Disetujui</span>;
-            case 'rejected':
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-700">Ditolak</span>;
-            default:
-                return <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-700">Pending</span>;
+    const handleExportExcel = async () => {
+        setIsExporting(true);
+        try {
+            // Fetch ALL data for export (bypassing pagination)
+            const { data: allData, error } = await supabase
+                .from('registrants')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!allData || allData.length === 0) {
+                toast({
+                    title: "Tidak ada data",
+                    description: "Belum ada data pendaftar untuk diexport.",
+                });
+                return;
+            }
+
+            // Format Data for Excel
+            const formattedData = allData.map((item, index) => ({
+                "No": index + 1,
+                "Nama Lengkap": item.full_name,
+                "NIK": `'${item.nik}`, // Force string to prevent scientific notation
+                "Gender": item.gender === 'ipnu' ? 'Rekan (IPNU)' : 'Rekanita (IPPNU)',
+                "NIA": item.nia ? `'${item.nia}` : '-',
+                "Email": item.email,
+                "No. HP": `'${item.phone_number}`,
+                "Asal Pimpinan": item.org_name,
+                "Tingkat Pimpinan": item.org_level ? item.org_level.toUpperCase() : '-',
+                "Tempat Lahir": item.birth_place,
+                "Tanggal Lahir": item.birth_date ? new Date(item.birth_date).toLocaleDateString('id-ID') : '-',
+                "Alamat": item.address,
+                "Desa/Kelurahan": item.village,
+                "Kecamatan": item.district,
+                "Kabupaten/Kota": item.regency,
+                "Provinsi": item.province,
+                "Hobi": item.hobby,
+                "Status": item.status,
+                "Username": item.username,
+                "Link Video": item.instagram_video_link,
+                "File Esai": item.file_urls?.essay || '-',
+                "File Sertifikat": item.file_urls?.sertifikat || '-',
+                "File Foto": item.file_urls?.foto || '-',
+                "Tanggal Daftar": new Date(item.created_at).toLocaleString('id-ID'),
+            }));
+
+            // Create Worksheet
+            const worksheet = XLSX.utils.json_to_sheet(formattedData);
+
+            // Auto-width columns (simple estimation)
+            const wscols = Object.keys(formattedData[0]).map(key => ({ wch: 20 }));
+            wscols[1] = { wch: 30 }; // Nama longer
+            wscols[2] = { wch: 20 }; // NIK
+            wscols[5] = { wch: 25 }; // Email
+            wscols[18] = { wch: 40 }; // Video Link
+            worksheet['!cols'] = wscols;
+
+            // Create Workbook
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Data Pendaftar");
+
+            // Save File
+            XLSX.writeFile(workbook, `Data_Pendaftar_LatinLatpel_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+            toast({
+                title: "Berhasil Export",
+                description: "File Excel berhasil diunduh.",
+            });
+
+        } catch (error: any) {
+            console.error('Export Error:', error);
+            toast({
+                variant: 'destructive',
+                title: "Gagal Export",
+                description: "Terjadi kesalahan saat mengunduh data.",
+            });
+        } finally {
+            setIsExporting(false);
         }
     };
 
-    const getOrgLabel = (level: string) => {
-        const labels: Record<string, string> = {
-            'pkpt': 'PKPT',
-            'pr': 'PR',
-            'pac': 'PAC',
-            'pc_internal': 'PC (Int)',
-            'pc_eksternal': 'PC (Ext)',
-        };
-        return labels[level] || level;
+    const getGenderLabel = (gender: string) => {
+        if (gender === 'ipnu') return 'IPNU';
+        if (gender === 'ippnu') return 'IPPNU';
+        return '-';
     };
 
     const totalPages = Math.ceil(totalCount / itemsPerPage);
@@ -171,6 +237,17 @@ export default function PendaftarPage() {
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Data Pendaftar</h1>
                     <p className="text-slate-500 dark:text-slate-400">Total: {totalCount} pendaftar</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={handleExportExcel}
+                        disabled={isExporting}
+                        className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                    >
+                        {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileDown className="w-4 h-4 mr-2 text-emerald-600" />}
+                        Export Excel
+                    </Button>
                 </div>
             </div>
 
@@ -188,18 +265,6 @@ export default function PendaftarPage() {
                         className="pl-10"
                     />
                 </div>
-                <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setCurrentPage(1); }}>
-                    <SelectTrigger className="w-full sm:w-48">
-                        <Filter className="w-4 h-4 mr-2" />
-                        <SelectValue placeholder="Filter Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">Semua Status</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="approved">Disetujui</SelectItem>
-                        <SelectItem value="rejected">Ditolak</SelectItem>
-                    </SelectContent>
-                </Select>
             </div>
 
             {/* Table */}
@@ -215,10 +280,10 @@ export default function PendaftarPage() {
                                 <tr>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">No</th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">NIK</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Asal</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">Tanggal</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Gender</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Delegasi</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Instagram</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Esai</th>
                                     <th className="px-4 py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
@@ -235,46 +300,41 @@ export default function PendaftarPage() {
                                             <td className="px-4 py-3 text-sm text-slate-500">{(currentPage - 1) * itemsPerPage + idx + 1}</td>
                                             <td className="px-4 py-3">
                                                 <p className="text-sm font-medium text-slate-900 dark:text-white">{r.full_name}</p>
-                                                <p className="text-xs text-slate-500 md:hidden">{r.nik}</p>
+                                                <p className="text-xs text-slate-500 md:hidden">{getGenderLabel(r.gender)}</p>
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400 hidden md:table-cell">{r.nik}</td>
-                                            <td className="px-4 py-3 hidden lg:table-cell">
-                                                <span className="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                                                    {getOrgLabel(r.org_level)}
+                                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${r.gender === 'ipnu' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
+                                                    {getGenderLabel(r.gender)}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3">{getStatusBadge(r.registration_status)}</td>
-                                            <td className="px-4 py-3 text-sm text-slate-500 hidden sm:table-cell">
-                                                {new Date(r.created_at).toLocaleDateString('id-ID')}
+                                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{r.org_name || '-'}</td>
+                                            <td className="px-4 py-3 text-sm">
+                                                {r.instagram_video_link ? (
+                                                    <a href={r.instagram_video_link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
+                                                        <Eye className="w-3 h-3" /> Lihat
+                                                    </a>
+                                                ) : '-'}
+                                            </td>
+                                            <td className="px-4 py-3 text-sm">
+                                                {r.file_urls && r.file_urls['essay'] ? (
+                                                    <a href={r.file_urls['essay']} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:text-emerald-700 hover:underline flex items-center gap-1">
+                                                        <Download className="w-3 h-3" /> Unduh
+                                                    </a>
+                                                ) : '-'}
                                             </td>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <Link href={`/admin/pendaftar/${r.id}`}>
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-blue-600">
+                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-blue-600" title="Detail">
                                                             <Eye className="w-4 h-4" />
                                                         </Button>
                                                     </Link>
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="h-8 w-8 text-slate-500 hover:text-emerald-600"
-                                                        onClick={() => handleStatusUpdate(r.id, 'approved')}
-                                                    >
-                                                        <CheckCircle className="w-4 h-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="h-8 w-8 text-slate-500 hover:text-red-600"
-                                                        onClick={() => handleStatusUpdate(r.id, 'rejected')}
-                                                    >
-                                                        <XCircle className="w-4 h-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
                                                         className="h-8 w-8 text-slate-500 hover:text-red-600"
                                                         onClick={() => handleDelete(r.id, r.full_name)}
+                                                        title="Hapus"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </Button>
@@ -287,7 +347,6 @@ export default function PendaftarPage() {
                         </table>
                     </div>
                 )}
-
                 {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">

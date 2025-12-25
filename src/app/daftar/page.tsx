@@ -19,12 +19,20 @@ import { Progress } from '@/components/ui/progress';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+} from "@/components/ui/alert-dialog";
 
 export default function DaftarPage() {
     const { toast } = useToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -170,9 +178,9 @@ export default function DaftarPage() {
                 throw new Error("NIK Invalid");
             }
 
-            // NIA Format Check (Optional field, but if filled, must be numbers and dots like 10.05.10.01048)
+            // NIA Format Check (Optional field, but if filled, must be numbers and dots)
             if (formData.nia && !/^[\d.]+$/.test(formData.nia)) {
-                setErrorMessage("Format NIA tidak valid. Gunakan format angka dan titik (contoh: 10.05.10.01048).");
+                setErrorMessage("Format NIA tidak valid. Pastikan hanya berisi angka atau titik.");
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 throw new Error("NIA Invalid");
             }
@@ -234,16 +242,13 @@ export default function DaftarPage() {
             }
 
             // 4. Success
-            toast({
-                title: "Pendaftaran Berhasil! 🎉",
-                description: "Data Anda telah kami terima. Anda akan diarahkan ke Group Peserta...",
-                duration: 5000,
-            });
+            // 4. Success
+            setShowSuccessDialog(true);
 
             // Redirect to WhatsApp Group after a brief delay
             setTimeout(() => {
                 window.location.href = "https://chat.whatsapp.com/CDo9frwW9rpA36SUF8cUpI";
-            }, 2000); // 2 second delay for user to see success message
+            }, 2000); // 1 second delay
 
         } catch (error: any) {
             console.error('Registration Error:', error);
@@ -447,8 +452,8 @@ export default function DaftarPage() {
                                         <Input id="status" placeholder="Pelajar/Mahasiswa/Santri/Lainnya" className={errorMessage && !formData.status ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.status} onChange={handleInputChange} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="nia">NIA <span className="text-slate-400 font-normal text-xs">(Format: 10.05.10.01048)</span></Label>
-                                        <Input id="nia" placeholder="Contoh: 10.05.10.01048" className={errorMessage && formData.nia && !/^[\d.]+$/.test(formData.nia) ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.nia} onChange={handleInputChange} />
+                                        <Label htmlFor="nia">NIA <span className="text-slate-400 font-normal text-xs">(untuk rekan IPNU silahkan akses sirekan app)</span></Label>
+                                        <Input id="nia" placeholder="Nomor Induk Anggota" className={errorMessage && formData.nia && !/^[\d.]+$/.test(formData.nia) ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.nia} onChange={handleInputChange} />
                                     </div>
 
                                     <div className="space-y-2">
@@ -604,6 +609,22 @@ export default function DaftarPage() {
                     </div>
                 </div>
             </section>
+
+            <AlertDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+                <AlertDialogContent className="max-w-md rounded-2xl">
+                    <AlertDialogHeader className="flex flex-col items-center justify-center text-center py-6">
+                        <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-6 animate-pulse">
+                            <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <AlertDialogTitle className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                            Pendaftaran Berhasil! 🎉
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="text-base text-slate-600 dark:text-slate-400 max-w-sm mx-auto">
+                            Data Anda telah kami terima. Anda akan segera diarahkan ke Group Peserta...
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                </AlertDialogContent>
+            </AlertDialog>
         </main>
     );
 }

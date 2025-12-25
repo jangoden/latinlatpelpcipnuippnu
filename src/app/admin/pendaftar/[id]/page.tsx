@@ -27,6 +27,7 @@ type Registrant = {
     nik: string;
     username: string;
     email: string;
+    gender: string;
     full_name: string;
     birth_place: string;
     birth_date: string;
@@ -44,7 +45,6 @@ type Registrant = {
     instagram_video_link: string;
     file_urls: Record<string, string>;
     created_at: string;
-    registration_status: string;
 };
 
 export default function RegistrantDetailPage() {
@@ -84,50 +84,13 @@ export default function RegistrantDetailPage() {
         }
     };
 
-    const handleStatusUpdate = async (status: 'approved' | 'rejected') => {
-        if (!registrant) return;
-
-        try {
-            const { error } = await supabase
-                .from('registrants')
-                .update({ registration_status: status })
-                .eq('id', registrant.id);
-
-            if (error) throw error;
-
-            toast({
-                title: status === 'approved' ? "Pendaftar Disetujui ✅" : "Pendaftar Ditolak ❌",
-                description: "Status pendaftar berhasil diperbarui.",
-            });
-            fetchRegistrant(registrant.id);
-        } catch (error) {
-            console.error('Error updating status:', error);
-            toast({
-                variant: "destructive",
-                title: "Gagal memperbarui status",
-                description: "Terjadi kesalahan.",
-            });
-        }
-    };
-
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'approved':
-                return <span className="px-3 py-1.5 text-sm font-medium rounded-full bg-emerald-100 text-emerald-700">Disetujui</span>;
-            case 'rejected':
-                return <span className="px-3 py-1.5 text-sm font-medium rounded-full bg-red-100 text-red-700">Ditolak</span>;
-            default:
-                return <span className="px-3 py-1.5 text-sm font-medium rounded-full bg-amber-100 text-amber-700">Pending</span>;
-        }
-    };
-
     const getOrgLabel = (level: string) => {
         const labels: Record<string, string> = {
-            'pkpt': 'Pimpinan Komisariat Perguruan Tinggi (PKPT)',
-            'pr': 'Pimpinan Ranting (PR)',
-            'pac': 'Pimpinan Anak Cabang (PAC)',
-            'pc_internal': 'PC IPNU IPPNU Ciamis (Internal)',
-            'pc_eksternal': 'PC IPNU IPPNU (Eksternal)',
+            'pkpt': 'PKPT',
+            'pr': 'PR',
+            'pac': 'PAC',
+            'pc_internal': 'PC (Int)',
+            'pc_eksternal': 'PC (Ext)',
         };
         return labels[level] || level;
     };
@@ -141,6 +104,12 @@ export default function RegistrantDetailPage() {
             'essay': 'Esai Kontribusi',
         };
         return labels[key] || key;
+    };
+
+    const getGenderLabel = (gender: string) => {
+        if (gender === 'ipnu') return 'Rekan (IPNU)';
+        if (gender === 'ippnu') return 'Rekanita (IPPNU)';
+        return '-';
     };
 
     if (loading) {
@@ -157,158 +126,220 @@ export default function RegistrantDetailPage() {
 
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Header with Navigation and Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div className="flex items-center gap-4">
                     <Link href="/admin/pendaftar">
-                        <Button variant="ghost" size="icon" className="rounded-full">
-                            <ArrowLeft className="w-5 h-5" />
+                        <Button variant="ghost" size="icon" className="rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <ArrowLeft className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                         </Button>
                     </Link>
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{registrant.full_name}</h1>
-                        <p className="text-slate-500 dark:text-slate-400">NIK: {registrant.nik}</p>
+                        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">{registrant.full_name}</h1>
+                        <div className="flex items-center gap-2 mt-1">
+                            <span className="text-sm font-mono text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                                {registrant.nik}
+                            </span>
+                            <span className="hidden sm:inline text-slate-300">|</span>
+                            <span className="text-sm text-slate-500 flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {new Date(registrant.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    {getStatusBadge(registrant.registration_status)}
+                    <Button
+                        variant="outline"
+                        onClick={() => window.print()}
+                        className="hidden sm:flex"
+                    >
+                        <FileText className="w-4 h-4 mr-2" />
+                        Cetak Data
+                    </Button>
                 </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="flex flex-wrap gap-3">
-                <Button
-                    className="bg-emerald-500 hover:bg-emerald-600"
-                    onClick={() => handleStatusUpdate('approved')}
-                >
-                    <CheckCircle className="w-4 h-4 mr-2" /> Setujui
-                </Button>
-                <Button
-                    variant="destructive"
-                    onClick={() => handleStatusUpdate('rejected')}
-                >
-                    <XCircle className="w-4 h-4 mr-2" /> Tolak
-                </Button>
-            </div>
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-            {/* Details Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Personal Info */}
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
-                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <User className="w-5 h-5 text-blue-500" /> Data Diri
-                    </h2>
-                    <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <p className="text-xs text-slate-500 uppercase">Username</p>
-                                <p className="text-sm font-medium text-slate-900 dark:text-white">{registrant.username}</p>
+                {/* Left Column: Personal Identity (2/3) */}
+                <div className="xl:col-span-2 space-y-6">
+                    {/* Data Diri Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex items-center gap-2">
+                            <User className="w-5 h-5 text-blue-500" />
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Identitas Diri</h2>
+                        </div>
+                        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama Lengkap</p>
+                                <p className="text-base font-medium text-slate-900 dark:text-white">{registrant.full_name}</p>
                             </div>
-                            <div>
-                                <p className="text-xs text-slate-500 uppercase">NIA</p>
-                                <p className="text-sm font-medium text-slate-900 dark:text-white">{registrant.nia || '-'}</p>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gender</p>
+                                <p className="text-base text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                                    {getGenderLabel(registrant.gender)}
+                                </p>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Mail className="w-4 h-4 text-slate-400" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300">{registrant.email}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Phone className="w-4 h-4 text-slate-400" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300">{registrant.phone_number}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <Calendar className="w-4 h-4 text-slate-400" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300">{registrant.birth_place}, {new Date(registrant.birth_date).toLocaleDateString('id-ID')}</span>
-                        </div>
-                        <div className="flex items-start gap-3">
-                            <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
-                            <span className="text-sm text-slate-700 dark:text-slate-300">
-                                {registrant.address}, {registrant.village}, {registrant.district}, {registrant.regency}, {registrant.province}
-                            </span>
-                        </div>
-                        <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
-                            <p className="text-xs text-slate-500 uppercase mb-1">Hobi</p>
-                            <p className="text-sm text-slate-700 dark:text-slate-300">{registrant.hobby}</p>
-                        </div>
-                        <div>
-                            <p className="text-xs text-slate-500 uppercase mb-1">Status</p>
-                            <p className="text-sm text-slate-700 dark:text-slate-300">{registrant.status}</p>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tempat, Tanggal Lahir</p>
+                                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                                    <Calendar className="w-4 h-4 text-slate-400" />
+                                    <span>{registrant.birth_place}, {new Date(registrant.birth_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Alamat Lengkap</p>
+                                <div className="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+                                    <MapPin className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" />
+                                    <span className="text-sm leading-relaxed">
+                                        {registrant.address}, <br />
+                                        Desa {registrant.village}, Kec. {registrant.district}, <br />
+                                        Kab. {registrant.regency}, Prov. {registrant.province}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</p>
+                                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                                    <Mail className="w-4 h-4 text-slate-400" />
+                                    <span>{registrant.email}</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Nomor HP / WhatsApp</p>
+                                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                                    <Phone className="w-4 h-4 text-slate-400" />
+                                    <span>{registrant.phone_number}</span>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Hobi</p>
+                                <p className="text-base text-slate-700 dark:text-slate-300">{registrant.hobby}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status Pernikahan</p>
+                                <p className="text-base text-slate-700 dark:text-slate-300">{registrant.status}</p>
+                            </div>
+
                         </div>
                     </div>
-                </div>
 
-                {/* Organization Info */}
-                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
-                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                        <Building className="w-5 h-5 text-purple-500" /> Asal Pimpinan
-                    </h2>
-                    <div className="space-y-4">
-                        <div>
-                            <p className="text-xs text-slate-500 uppercase mb-1">Tingkat Pimpinan</p>
-                            <p className="text-sm font-medium text-slate-900 dark:text-white">{getOrgLabel(registrant.org_level)}</p>
+                    {/* Organisasi & Delegasi Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex items-center gap-2">
+                            <Building className="w-5 h-5 text-purple-500" />
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Data Organisasi & Delegasi</h2>
                         </div>
-                        <div>
-                            <p className="text-xs text-slate-500 uppercase mb-1">Nama Pimpinan</p>
-                            <p className="text-sm font-medium text-slate-900 dark:text-white">{registrant.org_name}</p>
-                        </div>
-                        <div>
-                            <p className="text-xs text-slate-500 uppercase mb-1">Link Video Instagram</p>
-                            <a
-                                href={registrant.instagram_video_link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-sm text-blue-600 hover:underline flex items-center gap-1"
-                            >
-                                {registrant.instagram_video_link} <ExternalLink className="w-3 h-3" />
-                            </a>
-                        </div>
-                        <div className="pt-4 border-t border-slate-200 dark:border-slate-700">
-                            <p className="text-xs text-slate-500 uppercase mb-1">Tanggal Daftar</p>
-                            <p className="text-sm text-slate-700 dark:text-slate-300">
-                                {new Date(registrant.created_at).toLocaleString('id-ID', {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                })}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
 
-            {/* Uploaded Files */}
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
-                <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-emerald-500" /> Berkas yang Diupload
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                    {registrant.file_urls && Object.keys(registrant.file_urls).length > 0 ? (
-                        Object.entries(registrant.file_urls).map(([key, url]) => (
-                            <a
-                                key={key}
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
-                            >
-                                {key === 'foto' ? (
-                                    <Camera className="w-8 h-8 text-slate-400 group-hover:text-blue-500 mb-2" />
-                                ) : (
-                                    <FileText className="w-8 h-8 text-slate-400 group-hover:text-blue-500 mb-2" />
-                                )}
-                                <span className="text-xs text-center text-slate-600 dark:text-slate-400 group-hover:text-blue-600">{getFileLabel(key)}</span>
-                                <span className="text-xs text-blue-500 mt-1 flex items-center gap-1">
-                                    Lihat <ExternalLink className="w-3 h-3" />
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Asal Pimpinan (Delegasi)</p>
+                                <p className="text-lg font-medium text-purple-700 dark:text-purple-400">{registrant.org_name}</p>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tingkat Kepengurusan</p>
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+                                    {getOrgLabel(registrant.org_level)}
                                 </span>
-                            </a>
-                        ))
-                    ) : (
-                        <p className="text-sm text-slate-500 col-span-full">Tidak ada berkas yang diupload.</p>
-                    )}
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Nomor Induk Anggota (NIA)</p>
+                                <p className="text-base font-mono text-slate-700 dark:text-slate-300">
+                                    {registrant.nia || <span className="text-slate-400 italic">Belum memiliki NIA</span>}
+                                </p>
+                            </div>
+
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Video Profil Instagram</p>
+                                <a
+                                    href={registrant.instagram_video_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 hover:underline mt-1"
+                                >
+                                    <ExternalLink className="w-4 h-4" />
+                                    Lihat Video Profil
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Column: Files & Metadata (1/3) */}
+                <div className="space-y-6">
+                    {/* Berkas Uploaded Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 flex items-center gap-2">
+                            <FileText className="w-5 h-5 text-emerald-500" />
+                            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Berkas Pendaftaran</h2>
+                        </div>
+                        <div className="p-4 space-y-3">
+                            {registrant.file_urls && Object.keys(registrant.file_urls).length > 0 ? (
+                                Object.entries(registrant.file_urls).map(([key, url]) => (
+                                    <a
+                                        key={key}
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all group"
+                                    >
+                                        <div className="p-2 rounded-md bg-slate-100 dark:bg-slate-800 mr-3 text-slate-500 group-hover:text-blue-500 group-hover:bg-blue-50 transition-colors">
+                                            {key === 'foto' ? <Camera className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition-colors">
+                                                {getFileLabel(key)}
+                                            </p>
+                                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                                                Klik untuk melihat
+                                            </p>
+                                        </div>
+                                        <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-blue-400" />
+                                    </a>
+                                ))
+                            ) : (
+                                <div className="text-center py-8 text-slate-500">
+                                    <FileText className="w-10 h-10 mx-auto text-slate-200 mb-2" />
+                                    <p className="text-sm">Tidak ada berkas yang diupload</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* System Metadata Card */}
+                    <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">Informasi Sistem</h3>
+                        <div className="space-y-3">
+                            <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">ID Registrasi</span>
+                                <span className="font-mono text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                                    {registrant.id.split('-')[0]}...
+                                </span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Dibuat Pada</span>
+                                <span className="text-slate-700 dark:text-slate-300 text-right">
+                                    {new Date(registrant.created_at).toLocaleString('id-ID')}
+                                </span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span className="text-slate-500">Username</span>
+                                <span className="text-slate-700 dark:text-slate-300 font-medium">@{registrant.username}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
