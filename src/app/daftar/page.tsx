@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
+import { useWilayah } from '@/hooks/use-wilayah';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -69,6 +70,42 @@ export default function DaftarPage() {
         if (errorMessage) setErrorMessage(null);
     };
 
+    // Region API Hook
+    const {
+        provinces, regencies, districts, villages,
+        fetchRegencies, fetchDistricts, fetchVillages,
+        loading: regionLoading
+    } = useWilayah();
+
+    // Region Handlers
+    const handleProvinceChange = (value: string) => {
+        const selected = provinces.find(p => p.name === value);
+        if (selected) {
+            setFormData(prev => ({ ...prev, provinsi: selected.name, kabupaten: '', kecamatan: '', kelurahan: '' }));
+            fetchRegencies(selected.id);
+        }
+    };
+
+    const handleRegencyChange = (value: string) => {
+        const selected = regencies.find(r => r.name === value);
+        if (selected) {
+            setFormData(prev => ({ ...prev, kabupaten: selected.name, kecamatan: '', kelurahan: '' }));
+            fetchDistricts(selected.id);
+        }
+    };
+
+    const handleDistrictChange = (value: string) => {
+        const selected = districts.find(d => d.name === value);
+        if (selected) {
+            setFormData(prev => ({ ...prev, kecamatan: selected.name, kelurahan: '' }));
+            fetchVillages(selected.id);
+        }
+    };
+
+    const handleVillageChange = (value: string) => {
+        setFormData(prev => ({ ...prev, kelurahan: value }));
+    };
+
     // Handle File Input Change
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldId: string) => {
         if (e.target.files && e.target.files[0]) {
@@ -124,8 +161,25 @@ export default function DaftarPage() {
             if (!formData.instansi_detail) missingFields.push("Nama Pimpinan");
             if (!formData.video_link) missingFields.push("Link Video");
 
-            // Optional: files check?
-            if (!files.essay) missingFields.push("File Esai Kontribusi (Wajib)");
+            // Strict NIK Validation: 16 digits only
+            if (formData.nik && (!/^\d{16}$/.test(formData.nik))) {
+                setErrorMessage("NIK harus berupa 16 digit angka.");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                throw new Error("NIK Invalid");
+            }
+
+            // NIA Format Check (Optional field, but if filled, must be numbers and dots like 10.05.10.01048)
+            if (formData.nia && !/^[\d.]+$/.test(formData.nia)) {
+                setErrorMessage("Format NIA tidak valid. Gunakan format angka dan titik (contoh: 10.05.10.01048).");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                throw new Error("NIA Invalid");
+            }
+
+            // Mandatory Files Check
+            if (!files.essay) missingFields.push("File Esai Kontribusi");
+            if (!files.sertifikat) missingFields.push("Sertifikat Makesta & Lakmud");
+            if (!files.rekomendasi) missingFields.push("Surat Rekomendasi");
+            if (!files.foto) missingFields.push("Pas Foto 3x4");
 
             if (missingFields.length > 0) {
                 const errorMsg = `Mohon lengkapi data berikut: ${missingFields.join(', ')}`;
@@ -218,7 +272,7 @@ export default function DaftarPage() {
                             Formulir Pendaftaran
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400 text-lg max-w-xl mx-auto">
-                            Lengkapi data diri dan persyaratan administrasi Anda untuk bergabung dalam Latin & Latpel 2025.
+                            Lengkapi data diri dan persyaratan administrasi Anda untuk bergabung dalam Latin & Latpel 2026.
                         </p>
                     </div>
 
@@ -250,8 +304,20 @@ export default function DaftarPage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label htmlFor="nik">NIK <span className="text-red-500">*</span></Label>
-                                        <Input id="nik" type="number" placeholder="Nomor Induk Kependudukan" className={errorMessage && !formData.nik ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.nik} onChange={handleInputChange} />
+                                        <Label htmlFor="nik">NIK <span className="text-red-500">*</span> <span className="text-slate-400 text-xs font-normal">(16 digit)</span></Label>
+                                        <Input
+                                            id="nik"
+                                            type="text"
+                                            maxLength={16}
+                                            placeholder="Contoh: 3207123456780001"
+                                            className={errorMessage && (!formData.nik || formData.nik.length !== 16) ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}
+                                            value={formData.nik}
+                                            onChange={(e) => {
+                                                const val = e.target.value.replace(/\D/g, ''); // Only digits
+                                                setFormData(prev => ({ ...prev, nik: val }));
+                                                if (errorMessage) setErrorMessage(null);
+                                            }}
+                                        />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="username">Username <span className="text-red-500">*</span></Label>
@@ -283,20 +349,56 @@ export default function DaftarPage() {
 
                                     <div className="space-y-2">
                                         <Label htmlFor="provinsi">Provinsi <span className="text-red-500">*</span></Label>
-                                        <Input id="provinsi" placeholder="Provinsi" className={errorMessage && !formData.provinsi ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.provinsi} onChange={handleInputChange} />
+                                        <Select onValueChange={handleProvinceChange} disabled={regionLoading.provinces}>
+                                            <SelectTrigger className={errorMessage && !formData.provinsi ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
+                                                <SelectValue placeholder={regionLoading.provinces ? "Memuat..." : "Pilih Provinsi"} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {provinces.map(p => (
+                                                    <SelectItem key={p.id} value={p.name}>{p.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="kabupaten">Kabupaten/Kota <span className="text-red-500">*</span></Label>
-                                        <Input id="kabupaten" placeholder="Kabupaten/Kota" className={errorMessage && !formData.kabupaten ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.kabupaten} onChange={handleInputChange} />
+                                        <Select onValueChange={handleRegencyChange} disabled={!formData.provinsi || regionLoading.regencies}>
+                                            <SelectTrigger className={errorMessage && !formData.kabupaten ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
+                                                <SelectValue placeholder={regionLoading.regencies ? "Memuat..." : "Pilih Kabupaten/Kota"} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {regencies.map(r => (
+                                                    <SelectItem key={r.id} value={r.name}>{r.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </div>
 
                                     <div className="space-y-2">
                                         <Label htmlFor="kecamatan">Kecamatan <span className="text-red-500">*</span></Label>
-                                        <Input id="kecamatan" placeholder="Kecamatan" className={errorMessage && !formData.kecamatan ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.kecamatan} onChange={handleInputChange} />
+                                        <Select onValueChange={handleDistrictChange} disabled={!formData.kabupaten || regionLoading.districts}>
+                                            <SelectTrigger className={errorMessage && !formData.kecamatan ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
+                                                <SelectValue placeholder={regionLoading.districts ? "Memuat..." : "Pilih Kecamatan"} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {districts.map(d => (
+                                                    <SelectItem key={d.id} value={d.name}>{d.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="kelurahan">Kelurahan/Desa <span className="text-red-500">*</span></Label>
-                                        <Input id="kelurahan" placeholder="Kelurahan/Desa" className={errorMessage && !formData.kelurahan ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.kelurahan} onChange={handleInputChange} />
+                                        <Select onValueChange={handleVillageChange} disabled={!formData.kecamatan || regionLoading.villages}>
+                                            <SelectTrigger className={errorMessage && !formData.kelurahan ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
+                                                <SelectValue placeholder={regionLoading.villages ? "Memuat..." : "Pilih Kelurahan/Desa"} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {villages.map(v => (
+                                                    <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                     </div>
 
                                     <div className="space-y-2">
@@ -313,8 +415,8 @@ export default function DaftarPage() {
                                         <Input id="status" placeholder="Pelajar/Mahasiswa/Santri/Lainnya" className={errorMessage && !formData.status ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.status} onChange={handleInputChange} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="nia">NIA <span className="text-slate-400 font-normal">(Tidak Wajib)</span></Label>
-                                        <Input id="nia" placeholder="Nomor Induk Anggota" className="bg-white/50 dark:bg-slate-950/50" value={formData.nia} onChange={handleInputChange} />
+                                        <Label htmlFor="nia">NIA <span className="text-slate-400 font-normal text-xs">(Format: 10.05.10.01048)</span></Label>
+                                        <Input id="nia" placeholder="Contoh: 10.05.10.01048" className={errorMessage && formData.nia && !/^[\d.]+$/.test(formData.nia) ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.nia} onChange={handleInputChange} />
                                     </div>
 
                                     <div className="space-y-2">
@@ -324,17 +426,17 @@ export default function DaftarPage() {
                                                 <SelectValue placeholder="Pilih Asal Pimpinan" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="pac">Pimpinan Anak Cabang (PAC)</SelectItem>
                                                 <SelectItem value="pkpt">Pimpinan Komisariat Perguruan Tinggi (PKPT)</SelectItem>
                                                 <SelectItem value="pr">Pimpinan Ranting (PR)</SelectItem>
-                                                <SelectItem value="pc_internal">PC IPNU (Internal)</SelectItem>
-                                                <SelectItem value="pc_eksternal">PC IPNU (Eksternal / Delegasi)</SelectItem>
+                                                <SelectItem value="pac">Pimpinan Anak Cabang (PAC)</SelectItem>
+                                                <SelectItem value="pc_internal">PC IPNU IPPNU Ciamis (Internal)</SelectItem>
+                                                <SelectItem value="pc_eksternal">PC IPNU IPPNU (Eksternal)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="instansi_detail">Nama Pimpinan <span className="text-red-500">*</span></Label>
-                                        <Input id="instansi_detail" placeholder="Contoh: PAC Cipaku / PKPT IAID" className={errorMessage && !formData.instansi_detail ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.instansi_detail} onChange={handleInputChange} />
+                                        <Input id="instansi_detail" placeholder="Contoh: PAC Cipaku / PKPT INUCIS" className={errorMessage && !formData.instansi_detail ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"} value={formData.instansi_detail} onChange={handleInputChange} />
                                     </div>
                                 </div>
                             </div>
@@ -351,15 +453,15 @@ export default function DaftarPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* File Upload Helper */}
                                     {[
-                                        { id: "kta", label: "Scan/Foto KTA", icon: <Camera size={18} /> },
-                                        { id: "sertifikat", label: "Sertifikat Makesta & Lakmud", icon: <FileText size={18} />, note: "Gabung jadi satu PDF jika ada dua" },
-                                        { id: "rekomendasi", label: "Surat Rekomendasi", icon: <FileText size={18} /> },
-                                        { id: "foto", label: "Pas Foto 3x4 (Bg Merah)", icon: <Camera size={18} /> }
+                                        { id: "kta", label: "Scan/Foto KTA", icon: <Camera size={18} />, required: false },
+                                        { id: "sertifikat", label: "Sertifikat Makesta & Lakmud", icon: <FileText size={18} />, note: "Gabung jadi satu PDF jika ada dua", required: true },
+                                        { id: "rekomendasi", label: "Surat Rekomendasi", icon: <FileText size={18} />, required: true },
+                                        { id: "foto", label: "Pas Foto 3x4 (Bg Merah)", icon: <Camera size={18} />, required: true }
                                     ].map((field) => (
                                         <div key={field.id} className="space-y-2">
-                                            <Label htmlFor={field.id}>{field.label}</Label>
+                                            <Label htmlFor={field.id}>{field.label} {field.required && <span className="text-red-500">*</span>}</Label>
                                             <div className="flex items-center justify-center w-full">
-                                                <label htmlFor={field.id} className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${files[field.id] ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10' : 'border-slate-300 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100'}`}>
+                                                <label htmlFor={field.id} className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${files[field.id] ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/10' : (errorMessage && field.required && !files[field.id] ? 'border-red-500 bg-red-50/50' : 'border-slate-300 bg-slate-50 dark:bg-slate-900/50 hover:bg-slate-100')}`}>
                                                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                                         {files[field.id] ? (
                                                             <>
