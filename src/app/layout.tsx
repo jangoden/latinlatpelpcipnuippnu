@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import ChatBot from "@/components/chatbot"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://latinlatpel-nuciamis.com'), // Ganti dengan domain production yang sebenarnya jika ada
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://pcipnuippnucms.web.id/'), // Ganti dengan domain production yang sebenarnya jika ada
   title: {
     default: 'Latin & Latpel 2026 - PC IPNU IPPNU Ciamis',
     template: '%s | PC IPNU IPPNU Ciamis'
