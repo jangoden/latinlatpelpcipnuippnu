@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
-import ChatBot from "@/components/chatbot"
+import ChatBotWrapper from "@/components/ChatBotWrapper"
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://pcipnuippnucms.web.id/'), // Ganti dengan domain production yang sebenarnya jika ada
@@ -71,7 +71,7 @@ export default function RootLayout({
       <body className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary relative">
         {children}
         <Toaster />
-        <ChatBot />
+        <ChatBotWrapper />
       </body>
     </html>
   );
