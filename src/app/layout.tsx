@@ -4,8 +4,55 @@ import { Toaster } from "@/components/ui/toaster"
 import ChatBot from "@/components/chatbot"
 
 export const metadata: Metadata = {
-  title: 'Latin & Latpel 2026 - PC IPNU IPPNU Ciamis',
-  description: 'Latihan Instruktur & Latihan Pelatih | PC IPNU IPPNU Ciamis 2026',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://latinlatpel-nuciamis.com'), // Ganti dengan domain production yang sebenarnya jika ada
+  title: {
+    default: 'Latin & Latpel 2026 - PC IPNU IPPNU Ciamis',
+    template: '%s | PC IPNU IPPNU Ciamis'
+  },
+  description: 'Latihan Instruktur & Latihan Pelatih | PC IPNU IPPNU Ciamis 2026. Akselerasi Instruktur Pelatih yang Profesional dan Berkelanjutan.',
+  keywords: ['IPNU', 'IPPNU', 'Ciamis', 'Latihan Instruktur', 'Latihan Pelatih', 'LATIN', 'LATPEL', 'Kaderisasi', 'Nahdlatul Ulama'],
+  authors: [{ name: 'PC IPNU IPPNU Ciamis' }],
+  creator: 'PC IPNU IPPNU Ciamis',
+  publisher: 'PC IPNU IPPNU Ciamis',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: 'Latin & Latpel 2026 - PC IPNU IPPNU Ciamis',
+    description: 'Latihan Instruktur & Latihan Pelatih | PC IPNU IPPNU Ciamis 2026. Akselerasi Instruktur Pelatih yang Profesional dan Berkelanjutan.',
+    url: '/',
+    siteName: 'Latin & Latpel 2026',
+    locale: 'id_ID',
+    type: 'website',
+    images: [
+      {
+        url: '/images/bg-herosection.png',
+        width: 1200,
+        height: 630,
+        alt: 'Latin & Latpel 2026 PC IPNU IPPNU Ciamis',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Latin & Latpel 2026 - PC IPNU IPPNU Ciamis',
+    description: 'Akselerasi Instruktur Pelatih yang Profesional dan Berkelanjutan.',
+    images: ['/images/bg-herosection.png'],
+    creator: '@ipnu_ippnu_ciamis', // Sesuaikan jika ada username twitter
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
