@@ -40,6 +40,7 @@ type Registrant = {
     hobby: string;
     status: string;
     nia: string | null;
+    tshirt_size: string | null;
     org_level: string;
     org_name: string;
     instagram_video_link: string;
@@ -228,6 +229,12 @@ export default function RegistrantDetailPage() {
                             <div className="space-y-1">
                                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Status Pernikahan</p>
                                 <p className="text-base text-slate-700 dark:text-slate-300">{registrant.status}</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ukuran Kaos</p>
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">
+                                    {registrant.tshirt_size || '-'}
+                                </span>
                             </div>
 
                         </div>

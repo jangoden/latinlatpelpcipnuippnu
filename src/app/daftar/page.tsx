@@ -55,6 +55,7 @@ export default function DaftarPage() {
         gender: '', // 'ipnu' or 'ippnu'
         nia: '',
         video_link: '',
+        ukuran_kaos: '', // 'M', 'L', or 'XL'
     });
 
     const [files, setFiles] = useState<{ [key: string]: File | null }>({
@@ -169,6 +170,7 @@ export default function DaftarPage() {
             if (!formData.status) missingFields.push("Status");
             if (!formData.instansi) missingFields.push("Asal Pimpinan");
             if (!formData.instansi_detail) missingFields.push("Nama Pimpinan");
+            if (!formData.ukuran_kaos) missingFields.push("Ukuran Kaos");
             if (!formData.video_link) missingFields.push("Link Video");
 
             // Strict NIK Validation: 16 digits only
@@ -183,6 +185,14 @@ export default function DaftarPage() {
                 setErrorMessage("Format NIA tidak valid. Pastikan hanya berisi angka atau titik.");
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 throw new Error("NIA Invalid");
+            }
+
+            // URL Format Check for Video Link
+            const urlPattern = /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+            if (formData.video_link && !urlPattern.test(formData.video_link)) {
+                setErrorMessage("Format Link Video tidak valid. Pastikan memasukkan URL yang benar (contoh: https://instagram.com/p/...).");
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                throw new Error("URL Invalid");
             }
 
             // Mandatory Files Check
@@ -231,6 +241,7 @@ export default function DaftarPage() {
                 org_level: formData.instansi,
                 org_name: formData.instansi_detail,
                 instagram_video_link: formData.video_link,
+                tshirt_size: formData.ukuran_kaos,
                 file_urls: fileUrls, // JSONB
             });
 
@@ -457,6 +468,20 @@ export default function DaftarPage() {
                                     </div>
 
                                     <div className="space-y-2">
+                                        <Label htmlFor="ukuran_kaos">Ukuran Kaos <span className="text-red-500">*</span></Label>
+                                        <Select onValueChange={(value) => setFormData(prev => ({ ...prev, ukuran_kaos: value }))} value={formData.ukuran_kaos}>
+                                            <SelectTrigger className={errorMessage && !formData.ukuran_kaos ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
+                                                <SelectValue placeholder="Pilih Ukuran Kaos" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="M">M (Medium)</SelectItem>
+                                                <SelectItem value="L">L (Large)</SelectItem>
+                                                <SelectItem value="XL">XL (Extra Large)</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+
+                                    <div className="space-y-2">
                                         <Label htmlFor="instansi">Asal Pimpinan <span className="text-red-500">*</span></Label>
                                         <Select onValueChange={handleSelectChange} value={formData.instansi}>
                                             <SelectTrigger className={errorMessage && !formData.instansi ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}>
@@ -536,8 +561,22 @@ export default function DaftarPage() {
                                         <Label htmlFor="video_link">Link Video Instagram <span className="text-red-500">*</span></Label>
                                         <div className="relative">
                                             <span className="absolute left-3 top-2.5 text-slate-400 material-symbols-outlined text-[20px]">link</span>
-                                            <Input id="video_link" placeholder="https://instagram.com/p/..." className={errorMessage && !formData.video_link ? "pl-10 border-red-500 bg-red-50/50" : "pl-10 bg-white/50 dark:bg-slate-950/50"} value={formData.video_link} onChange={handleInputChange} />
+                                            <Input
+                                                id="video_link"
+                                                placeholder="https://instagram.com/p/..."
+                                                className={`pl-10 ${errorMessage && (!formData.video_link || (formData.video_link && !/^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(formData.video_link))) ? "border-red-500 bg-red-50/50" : "bg-white/50 dark:bg-slate-950/50"}`}
+                                                value={formData.video_link}
+                                                onChange={handleInputChange}
+                                            />
                                         </div>
+                                        {formData.video_link && !/^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/.test(formData.video_link) && (
+                                            <div className="flex items-center gap-2 mt-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+                                                <span className="material-symbols-outlined text-amber-600 dark:text-amber-400 text-lg">warning</span>
+                                                <p className="text-xs text-amber-700 dark:text-amber-300 font-medium">
+                                                    Format harus berupa link URL yang valid (contoh: https://instagram.com/p/...)
+                                                </p>
+                                            </div>
+                                        )}
                                         <p className="text-xs text-slate-500">Video terkait kondisi kaderisasi (Durasi 3-5 Menit).</p>
                                     </div>
 

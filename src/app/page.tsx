@@ -206,6 +206,342 @@ export default function Home() {
               </div>
             </div>
 
+            {/* 4. Waktu dan Tempat Pelatihan */}
+            <div className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span className="material-symbols-outlined text-[120px] text-slate-900">
+                  calendar_month
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm">4</span>
+                Waktu dan Tempat Pelatihan
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white/50 p-5 rounded-2xl border border-white/60 text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                    <span className="material-symbols-outlined">event</span>
+                  </div>
+                  <h4 className="font-bold text-slate-800 mb-1">Hari</h4>
+                  <p className="text-slate-600">Jum'at s.d. Ahad</p>
+                </div>
+                <div className="bg-white/50 p-5 rounded-2xl border border-white/60 text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+                    <span className="material-symbols-outlined">date_range</span>
+                  </div>
+                  <h4 className="font-bold text-slate-800 mb-1">Tanggal</h4>
+                  <p className="text-slate-600 font-semibold">09 – 11 Januari 2026</p>
+                </div>
+                <div className="bg-white/50 p-5 rounded-2xl border border-white/60 text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
+                    <span className="material-symbols-outlined">location_on</span>
+                  </div>
+                  <h4 className="font-bold text-slate-800 mb-1">Tempat</h4>
+                  <p className="text-slate-600 text-sm">Pondok Pesantren Baitul Hikam As-Shofa – Cijeungjing</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. Unsur Pelaksana */}
+            <div className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span className="material-symbols-outlined text-[120px] text-slate-900">
+                  groups
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm">5</span>
+                Unsur Pelaksana
+              </h3>
+              <p className="text-slate-600 mb-6">
+                Tim atau individu yang terlibat secara langsung dalam pelaksanaan kegiatan:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
+                      <span className="material-symbols-outlined text-lg">badge</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Panitia</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Tim OC yang merancang konsep, mempersiapkan administrasi, logistik, dan menjaga kondusifitas kegiatan.</p>
+                </div>
+                <div className="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
+                      <span className="material-symbols-outlined text-lg">record_voice_over</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Moderator</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Memberi orientasi materi, mengatur lalu lintas dialog, dan membuat kesimpulan materi.</p>
+                </div>
+                <div className="bg-purple-50/50 p-4 rounded-xl border border-purple-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
+                      <span className="material-symbols-outlined text-lg">edit_note</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Notulis</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Mencatat seluruh pembicaraan dalam sesi materi dan menyusun notulensi yang rapi.</p>
+                </div>
+                <div className="bg-orange-50/50 p-4 rounded-xl border border-orange-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600">
+                      <span className="material-symbols-outlined text-lg">support_agent</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Petugas Forum</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Melayani kebutuhan teknis forum dan menyiapkan perlengkapan proses forum.</p>
+                </div>
+                <div className="bg-red-50/50 p-4 rounded-xl border border-red-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-red-100 flex items-center justify-center text-red-600">
+                      <span className="material-symbols-outlined text-lg">school</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Instruktur LATIN & LATPEL</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Tim 2-3 orang yang memimpin, membimbing, dan memantau dinamika forum secara keseluruhan.</p>
+                </div>
+                <div className="bg-cyan-50/50 p-4 rounded-xl border border-cyan-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-cyan-100 flex items-center justify-center text-cyan-600">
+                      <span className="material-symbols-outlined text-lg">person_search</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Narasumber</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Kader alumni LATIN/LATPEL, tokoh masyarakat, akademisi, atau profesional NU yang kompeten.</p>
+                </div>
+                <div className="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50 hover:shadow-md transition-all">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-9 h-9 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
+                      <span className="material-symbols-outlined text-lg">fact_check</span>
+                    </div>
+                    <h4 className="font-bold text-slate-800 text-sm">Tim Screening</h4>
+                  </div>
+                  <p className="text-slate-600 text-xs leading-relaxed">Tim yang ditunjuk PW & PC untuk menyeleksi kelayakan peserta.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 6. Pendekatan dan Metode Pelatihan */}
+            <div className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span className="material-symbols-outlined text-[120px] text-slate-900">
+                  psychology
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm">6</span>
+                Pendekatan dan Metode Pelatihan
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                      <span className="material-symbols-outlined">emoji_objects</span>
+                    </div>
+                    <h4 className="font-bold text-xl text-slate-800">Pendekatan</h4>
+                  </div>
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-5 rounded-2xl border border-blue-100/50">
+                    <p className="text-slate-700 font-semibold text-lg mb-2">Andragogi Murni</p>
+                    <p className="text-slate-600 text-sm italic">"Full Participatory Training"</p>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg">
+                      <span className="material-symbols-outlined">build</span>
+                    </div>
+                    <h4 className="font-bold text-xl text-slate-800">Metode</h4>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      "Brainstorming",
+                      "Ceramah",
+                      "Diskusi",
+                      "Focus Group Discussion",
+                      "Sharing Pengalaman"
+                    ].map((method, i) => (
+                      <div key={i} className="flex items-center gap-2 bg-white/60 p-2.5 rounded-lg text-sm hover:bg-white/80 transition-colors">
+                        <span className="material-symbols-outlined text-emerald-500 text-base">check_circle</span>
+                        <span className="text-slate-700">{method}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 7. Kriteria dan Persyaratan Peserta */}
+            <div className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span className="material-symbols-outlined text-[120px] text-slate-900">
+                  checklist
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm">7</span>
+                Kriteria dan Persyaratan Peserta
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Kriteria */}
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                      <span className="material-symbols-outlined">verified_user</span>
+                    </div>
+                    <h4 className="font-bold text-lg text-slate-800">Kriteria Peserta</h4>
+                  </div>
+                  <ul className="space-y-3">
+                    {[
+                      "Kader IPNU & IPPNU yang telah lulus LAKMUD (dibuktikan dengan sertifikat).",
+                      "Lulus screening (seleksi).",
+                      "Usia minimal 16 tahun, maksimal 24 tahun.",
+                      "Kuota maksimal: 50 orang (25 IPNU, 25 IPPNU)."
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-slate-600 text-sm">
+                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 shrink-0" />
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {/* Perlengkapan */}
+                <div>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-purple-100 text-purple-600 rounded-lg">
+                      <span className="material-symbols-outlined">luggage</span>
+                    </div>
+                    <h4 className="font-bold text-lg text-slate-800">Perlengkapan Pribadi</h4>
+                  </div>
+                  <ul className="space-y-2">
+                    {[
+                      "Pakaian (Baju Putih, Celana/Rok Hitam untuk forum).",
+                      "Baju Olahraga.",
+                      "Peci hitam (IPNU) / Kerudung hitam (IPPNU).",
+                      "Alat Sholat & Alat Mandi.",
+                      "ATK & Atribut Organisasi."
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-3 text-slate-600 text-sm">
+                        <span className="material-symbols-outlined text-purple-500 text-base shrink-0">check_box</span>
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              {/* Logistik */}
+              <div className="mt-8 pt-6 border-t border-slate-200/50">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-orange-100 text-orange-600 rounded-lg">
+                    <span className="material-symbols-outlined">fastfood</span>
+                  </div>
+                  <h4 className="font-bold text-lg text-slate-800">Logistik (Barang Bawaan Wajib)</h4>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {[
+                    { item: "Beras 0,5 Liter", icon: "rice_bowl" },
+                    { item: "Mie Instan (3x)", icon: "ramen_dining" },
+                    { item: "Telur (3 butir)", icon: "egg" },
+                    { item: "Energen & Susu (2x)", icon: "local_cafe" },
+                    { item: "Kopi Hitam (2x)", icon: "coffee" }
+                  ].map((l, i) => (
+                    <div key={i} className="bg-orange-50/50 p-3 rounded-xl text-center hover:bg-orange-100/50 transition-colors">
+                      <span className="material-symbols-outlined text-orange-500 text-2xl mb-1">{l.icon}</span>
+                      <p className="text-slate-600 text-xs font-medium">{l.item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 8. Materi Pelatihan */}
+            <div className="glass-panel p-8 md:p-10 rounded-3xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span className="material-symbols-outlined text-[120px] text-slate-900">
+                  menu_book
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm">8</span>
+                Materi Pelatihan
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">mosque</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Ke-Aswaja-an dan Ke-NU-an</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">account_tree</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Sistem Kaderisasi IPNU & IPPNU</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">psychology_alt</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Falsafah dan Pendekatan Pelatihan Kader</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-red-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">school</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Keinstrukturan dan Kepelatihan I</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-pink-100 flex items-center justify-center text-pink-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">neurology</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Psikologi Pelatihan Kader I</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">event_available</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Manajemen Pelatihan I</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-cyan-100 flex items-center justify-center text-cyan-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">sports_esports</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Bermain dan Belajar (Ice Breaking/Game)</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">analytics</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Metodologi Evaluasi Pelatihan Kader</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">rate_review</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Review Materi MAKESTA dan LAKMUD</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">campaign</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Praktik Public Speaking</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-teal-100 flex items-center justify-center text-teal-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">person_play</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Praktik Fasilitasi Pelatihan</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/50 p-4 rounded-xl border border-white/60 hover:shadow-md transition-all">
+                  <div className="w-10 h-10 rounded-lg bg-violet-100 flex items-center justify-center text-violet-600 shrink-0">
+                    <span className="material-symbols-outlined text-xl">cast_for_education</span>
+                  </div>
+                  <span className="text-slate-700 font-medium text-sm leading-tight">Metode dan Media Pelatihan</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

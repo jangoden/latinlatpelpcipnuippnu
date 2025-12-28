@@ -25,6 +25,7 @@ type Registrant = {
     email: string;
     gender: string;
     nia?: string;
+    tshirt_size?: string;
     org_name: string;
     instagram_video_link: string;
     file_urls: { [key: string]: string } | null;
@@ -84,7 +85,7 @@ export default function PendaftarPage() {
         try {
             let query = supabase
                 .from('registrants')
-                .select('id, full_name, nik, email, gender, nia, org_name, instagram_video_link, file_urls, created_at', { count: 'exact' });
+                .select('id, full_name, nik, email, gender, nia, tshirt_size, org_name, instagram_video_link, file_urls, created_at', { count: 'exact' });
 
             // Apply search filter
             if (searchQuery) {
@@ -185,6 +186,7 @@ export default function PendaftarPage() {
                 "File Sertifikat": item.file_urls?.sertifikat || '-',
                 "File Foto": item.file_urls?.foto || '-',
                 "Tanggal Daftar": new Date(item.created_at).toLocaleString('id-ID'),
+                "Ukuran Kaos": item.tshirt_size || '-',
             }));
 
             // Create Worksheet
