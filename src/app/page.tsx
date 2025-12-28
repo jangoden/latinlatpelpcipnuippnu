@@ -881,14 +881,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto pt-16 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm">
           <p>© 2024 PC IPNU IPPNU Ciamis. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a className="hover:text-slate-600 transition-colors" href="#">
-              Instagram
+            <a className="hover:text-slate-600 transition-colors flex items-center gap-1" href="https://www.instagram.com/ipnukabciamis/" target="_blank" rel="noopener noreferrer">
+              <span className="material-symbols-outlined text-base">link</span>
+              PC IPNU Ciamis
             </a>
-            <a className="hover:text-slate-600 transition-colors" href="#">
-              Contact
-            </a>
-            <a className="hover:text-slate-600 transition-colors" href="#">
-              Privacy
+            <a className="hover:text-slate-600 transition-colors flex items-center gap-1" href="https://www.instagram.com/pcippnukabciamis/" target="_blank" rel="noopener noreferrer">
+              <span className="material-symbols-outlined text-base">link</span>
+              PC IPPNU Ciamis
             </a>
           </div>
         </div>
