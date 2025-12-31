@@ -826,7 +826,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center gap-2 mb-12 opacity-80">
               <span className="w-16 h-px bg-slate-300"></span>
               <span className="text-slate-500 font-semibold italic text-sm">Mengetahui,</span>
-              <p className="text-slate-800 font-bold">Pimpinan Cabang IPNU & IPPNU Kabupaten Ciamis</p>
+              <p className="text-slate-800 font-bold text-center md:text-left">Pimpinan Cabang IPNU & IPPNU Kabupaten Ciamis</p>
             </div>
 
             {/* PC Signatures */}
