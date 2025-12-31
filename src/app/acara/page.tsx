@@ -1,81 +1,90 @@
 "use client";
 
+
 import { Navbar } from '@/components/Navbar';
+import { SpotifyPlaylist } from '@/components/SpotifyPlaylist';
 import React from 'react';
 
 const rundownData = [
     {
-        date: "Jum’at, 09 Januari 2026",
+        date: "Jum'at, 09 Januari 2026",
         schedule: [
             { time: "08.00 - 13.30", activity: "Registrasi Peserta", person: "Sekretariat" },
             {
-                time: "13.30 - 15.00",
+                time: "08.00 - 13.30",
                 activity: "Opening Ceremony",
-                person: "Rekanita Annisa Nurhanidah / Rekanita Syifa Asma Amalia",
+                person: "MC: Rekanita Annisa Nurhanidah & Rekanita Syifa Asma Amalia",
                 details: [
                     { label: "Menyanyikan Lagu Kebangsaan Indonesia Raya", person: "Rekanita Delis Yayi Siti Maryam" },
-                    { label: "Pembacaan Ayat Suci Al-Qur’an", person: "Rekan --------" },
-                    { label: "Tawasul", person: "Rekan Bagus Pribadi" },
-                    { label: "Menyanyikan Lagu (Mars IPNU, IPPNU, Syubanul Wathon)", person: "Rekanita Delis Yayi Siti Maryam" },
+                    { label: "Pembacaan Ayat Suci Al-Qur'an", person: "Rekan Bagus Pribadi" },
+                    { label: "Tawasul", person: "Rekan Bagus Pribadi / Petugas" },
                     { label: "Prakata Ketua Panitia", person: "Rekanita Alis" },
-                    { label: "Sambutan Ketua PC IPNU Ciamis", person: "Rekan Irman Muhamad Farhan" },
-                    { label: "Sambutan Ketua PC IPPNU Ciamis", person: "Rekanita Nia Siti Kurniasari" },
-                    { label: "Sambutan Ketua PW IPNU Jawa Barat", person: "Rekan Akbar Abdul Aziz" },
-                    { label: "Sambutan Ketua PW IPPNU Jawa Barat", person: "Rekanita Renita" },
-                    { label: "Sambutan Pimpinan PP Baitul Hikam As-Shofa", person: "KH. ------------" },
-                    { label: "Sambutan Ketua Tanfidziah PCNU Ciamis", person: "KH. Arief Ismail Chowas, S.Ag" },
-                    { label: "Sambutan Bupati Ciamis", person: "Dr. H. Herdiat Sunarya" },
-                    { label: "Do’a", person: "Rekan Jajang Miftah Maulana" },
+                ]
+            },
+            {
+                time: "13.30 - 15.00",
+                activity: "Sambutan-sambutan",
+                person: "-",
+                details: [
+                    { label: "Ketua PC IPNU Ciamis", person: "Rekan Irman Muhamad Farhan" },
+                    { label: "Ketua PC IPPNU Ciamis", person: "Rekanita Nia Siti Kurniasari" },
+                    { label: "Ketua PW IPNU Jawa Barat", person: "Rekan Akbar Abdul Aziz" },
+                    { label: "Ketua PW IPPNU Jawa Barat", person: "Rekanita Renita" },
+                    { label: "Pimpinan PP Baitul Hikam As-Shofa", person: "Ky. Anas Nasruddin" },
+                    { label: "Ketua Tanfidziah PCNU Ciamis", person: "KH. Arief Ismail Chowas, S.Ag" },
+                    { label: "Bupati Ciamis (Sekaligus Membuka Acara)", person: "Dr. H. Herdiat Sunarya" },
+                    { label: "Do'a", person: "KH. Amir Hamzah" },
                 ]
             },
             { time: "15.00 - 15.30", activity: "Kontrak Forum & Pre Test", person: "Instruktur" },
             { time: "15.30 - 16.00", activity: "Sholat Ashar", person: "All Person" },
-            { time: "16.00 - 17.30", activity: "MATERI 1: ASWAJA dan KE-NU-AN", person: "Kyai Tatang Nawawi, S.Pd" },
-            { time: "17.30 - 18.30", activity: "ISHOMA", person: "All person" },
-            { time: "18.30 – 19.30", activity: "Istighosah dan Shalat Isya", person: "Panitia" },
-            { time: "19.30 - 21.00", activity: "MATERI 2: SISTEM KADERISASI 1", person: "Muhamad Khotami, S.H.,CPM" },
-            { time: "21.00 - 22.30", activity: "MATERI 3: REVIEW MATERI MAKESTA DAN LAKMUD", person: "Instruktur PW IPNU IPPNU" },
-            { time: "22.30 – 23.30", activity: "FGD", person: "Panitia" },
-            { time: "23.30 - ......", activity: "Istirahat", person: "All person" },
+            { time: "16.00 - 17.30", activity: "MATERI 1 (ASWAJA dan KE-NU-AN)", person: "PEMATERI" },
+            { time: "17.30 - 18.30", activity: "ISHOMA", person: "All Person" },
+            { time: "18.30 - 19.30", activity: "Istighosah dan Shalat Isya", person: "Panitia" },
+            { time: "19.30 - 21.00", activity: "MATERI 2 (SISTEM KADERISASI 1)", person: "PEMATERI" },
+            { time: "21.00 - 22.30", activity: "MATERI 3 (REVIEW MATERI MAKESTA DAN LAKMUD)", person: "PEMATERI" },
+            { time: "22.30 - 23.30", activity: "Focus Group Discussion (FGD)", person: "Panitia" },
+            { time: "23.30 - 04.00", activity: "Istirahat", person: "All Person" },
         ]
     },
     {
         date: "Sabtu, 10 Januari 2026",
         schedule: [
-            { time: "04.00 – 04.30", activity: "Persiapan dan Shalat shubuh", person: "Panitia" },
-            { time: "04.30 - 05.30", activity: "Kultum pagi dan waqiah", person: "-" },
-            { time: "05.30 - 06.30", activity: "Olahraga", person: "-" },
-            { time: "06.30 – 08.00", activity: "Sarapan dan Persiapan", person: "-" },
-            { time: "08.00 - 09.30", activity: "MATERI 4: METODE DAN MEDIA PELATIHAN", person: "-" },
-            { time: "09.30 - 11.00", activity: "MATERI 5: FALSAFAH DAN PENDEKATAN PELATIHAN KADER", person: "-" },
-            { time: "11.00 - 12.30", activity: "MATERI 6: PSIKOLOGI PELATIHAN KADER", person: "-" },
+            { time: "04.00 - 04.30", activity: "Persiapan dan Shalat Shubuh", person: "Panitia" },
+            { time: "04.30 - 05.30", activity: "Kultum Pagi dan Waqiah", person: "Panitia" },
+            { time: "05.30 - 06.30", activity: "Olahraga", person: "Panitia" },
+            { time: "06.30 - 08.00", activity: "Sarapan dan Persiapan", person: "Panitia" },
+            { time: "08.00 - 09.30", activity: "MATERI 4 (PRAKTIK FASILITASI PELATIHAN)", person: "PEMATERI" },
+            { time: "09.30 - 11.00", activity: "MATERI 5 (FALSAFAH DAN PENDEKATAN PELATIHAN KADER)", person: "PEMATERI" },
+            { time: "11.00 - 12.30", activity: "MATERI 6 (PSIKOLOGI PELATIHAN KADER)", person: "PEMATERI" },
             { time: "12.30 - 13.30", activity: "ISHOMA", person: "Panitia" },
-            { time: "13.30 - 15.00", activity: "MATERI 7: MANAJEMEN PELATIHAN 1", person: "H Nana Supriatna, S.Ag., M.A" },
+            { time: "13.30 - 15.00", activity: "MATERI 7 (BERMAIN DAN BELAJAR)", person: "PEMATERI" },
             { time: "15.00 - 15.30", activity: "Sholat Ashar", person: "All Person" },
-            { time: "15.30 – 17.00", activity: "MATERI 8: METODOLOGI DAN EVALUASI PELATIHAN KADER", person: "Dr. Lilis Kholisoh, M.Pd" },
-            { time: "17.00 – 18.30", activity: "ISHOMA", person: "All Person" },
-            { time: "18.30 – 19.30", activity: "Maulid barjanji / diba dan shalat isya", person: "Panitia" },
-            { time: "19.30 - 21.00", activity: "MATERI 9: PRAKTEK PUBLIC SPEAKING", person: "Kang Jhon Husein" },
-            { time: "21.00 - 22.30", activity: "MATERI 10: KEINSTRUKTURAN 1, KEPELATIHAN 1", person: "Instruktur PW IPNU IPPNU" },
-            { time: "22.30 - 00.00", activity: "MATERI 11: BERMAIN DAN BELAJAR", person: "-" },
-            { time: "00.00 - 01.00", activity: "FGD", person: "Instruktur" },
+            { time: "15.30 - 17.00", activity: "MATERI 8 (METODOLOGI DAN EVALUASI PELATIHAN KADER)", person: "PEMATERI" },
+            { time: "17.00 - 18.30", activity: "ISHOMA", person: "All Person" },
+            { time: "18.30 - 19.30", activity: "Maulid Barjanji / Diba dan Shalat Isya", person: "Panitia" },
+            { time: "19.30 - 21.00", activity: "MATERI 9 (PRAKTIK PUBLIC SPEAKING)", person: "PEMATERI" },
+            { time: "21.00 - 22.30", activity: "MATERI 10 (MANAJEMEN PELATIHAN 1)", person: "PEMATERI" },
+            { time: "22.30 - 00.00", activity: "MATERI 11 (KEINSTRUKTURAN 1, KEPELATIHAN 1)", person: "PEMATERI" },
+            { time: "00.00 - 01.00", activity: "Focus Group Discussion (FGD)", person: "Instruktur" },
             { time: "01.00 - 04.00", activity: "Tidur", person: "All Person" },
         ]
     },
     {
         date: "Ahad, 11 Januari 2026",
         schedule: [
-            { time: "04.00 - 04.30", activity: "Persiapan dan Shalat Shubuh", person: "All Person" },
-            { time: "04.30 - 05.30", activity: "Kultum pagi dan Waqiah", person: "Panitia" },
-            { time: "05.30 - 06.30", activity: "Olahraga", person: "Panitia cbp/kpp" },
-            { time: "06.30 – 08.00", activity: "Sarapan dan persiapan", person: "-" },
-            { time: "08.00 - 09.30", activity: "MATERI 12: PRAKTIK FASILITASI PELATIHAN", person: "-" },
-            { time: "09.30 - 10.30", activity: "FGD", person: "Instruktur" },
+            { time: "04.00 - 04.30", activity: "Persiapan dan Shalat Shubuh", person: "Panitia" },
+            { time: "04.30 - 05.30", activity: "Kultum Pagi dan Waqiah", person: "Panitia" },
+            { time: "05.30 - 06.30", activity: "Olahraga", person: "Panitia" },
+            { time: "06.30 - 08.00", activity: "Sarapan dan Persiapan", person: "Panitia" },
+            { time: "08.00 - 09.30", activity: "MATERI 12 (METODE DAN MEDIA PELATIHAN)", person: "PEMATERI" },
+            { time: "09.30 - 10.30", activity: "Focus Group Discussion (FGD)", person: "Instruktur" },
+            { time: "10.30 - 11.30", activity: "(Estimasi Istirahat / Persiapan)", person: "All Person" },
             { time: "11.30 - 12.00", activity: "Evaluasi dan Post Test", person: "Instruktur" },
-            { time: "12.00 – 13.00", activity: "Sholat Dzuhur", person: "All Person" },
-            { time: "13.00 – 13.30", activity: "Pembai’atan", person: "Panitia" },
-            { time: "13.30 - 14.00", activity: "Rencana Tindak Lanjut", person: "PC IPNU IPPNU Ciamis" },
-            { time: "14.00 – 15.00", activity: "Penutupan makan siang dan pulang", person: "Panitia" },
+            { time: "12.00 - 13.00", activity: "Sholat Dzuhur", person: "All Person" },
+            { time: "13.00 - 13.30", activity: "Pembai'atan", person: "Panitia" },
+            { time: "13.30 - 14.30", activity: "Rencana Tindak Lanjut (RTL)", person: "PC IPNU IPPNU Ciamis" },
+            { time: "14.30 - 15.00", activity: "Penutupan, Makan Siang, dan Pulang", person: "Panitia" },
         ]
     }
 ];
@@ -187,6 +196,10 @@ export default function AcaraPage() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mt-16 animate-fade-in-up">
+                        <SpotifyPlaylist />
                     </div>
                 </div>
             </div>
