@@ -26,6 +26,7 @@ import {
     AlertDialogTitle,
     AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
+import imageCompression from 'browser-image-compression';
 
 export default function DaftarPage() {
     const { toast } = useToast();
@@ -125,12 +126,35 @@ export default function DaftarPage() {
     };
 
     // Upload Helper
+    // Upload Helper
     const uploadFile = async (file: File, folder: string) => {
-        const fileExt = file.name.split('.').pop();
+        let fileToUpload = file;
+        const fileExt = file.name.split('.').pop()?.toLowerCase();
+        
+        // Compress if it's an image
+        if (['png', 'jpg', 'jpeg', 'webp'].includes(fileExt || '')) {
+            try {
+                console.log(`Compressing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)...`);
+                const options = {
+                    maxSizeMB: 1, // Max 1MB
+                    maxWidthOrHeight: 1920, // Max width/height
+                    useWebWorker: true,
+                    initialQuality: 0.8,
+                };
+                const compressedFile = await imageCompression(file, options);
+                console.log(`Compressed to ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+                // browser-image-compression returns a File or Blob. 
+                // We cast to File to ensure name preservation if needed, though upload takes BodyInit.
+                fileToUpload = compressedFile as File; 
+            } catch (err) {
+                console.error("Image compression failed, uploading original:", err);
+            }
+        }
+
         const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
         const { data, error } = await supabase.storage
             .from('registration-files')
-            .upload(fileName, file);
+            .upload(fileName, fileToUpload);
 
         if (error) throw error;
 
