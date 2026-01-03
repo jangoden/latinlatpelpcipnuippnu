@@ -764,7 +764,7 @@ export default function Home() {
             <div className="relative bg-white/50 backdrop-blur-sm z-10 p-6 flex items-start justify-between border-b border-white/50">
               <div>
                 <h3 className="text-xl font-bold text-slate-800 mb-1">
-                  Pondok Pesantren Baitul Hikmah
+                  Yayasan Baitul Hikam As-Shofa
                 </h3>
                 <p className="text-slate-500 text-sm font-medium">
                   Haryono, Kec. Ciamis, Kabupaten Ciamis, Jawa Barat 46211
@@ -778,7 +778,7 @@ export default function Home() {
             </div>
             <div className="relative w-full h-full flex-grow">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.6199578184537!2d108.3699638!3d-7.326928199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f5e8dc76c530f%3A0xd83930ba2bc11771!2sPondok%20Pesantren%20Baitul%20Hikmah!5e0!3m2!1sid!2sid!4v1766567499189!5m2!1sid!2sid"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.139337740847!2d108.441474!3d-7.338244999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f6100085c1f7b%3A0xfaa46c1f3263844d!2sYAYASAN%20BAITUL%20HIKAM%20ASSHOFA!5e0!3m2!1sid!2sid!4v1767452219515!5m2!1sid!2sid"
                 width="100%"
                 height="100%"
                 style={{ border: 0, position: 'absolute', top: 0, left: 0 }}
