@@ -864,16 +864,11 @@ export default function Home() {
                 Jangan lewatkan kesempatan emas ini. Kuota terbatas untuk kader
                 pilihan.
               </p>
-              <Link href="/daftar">
-                <button className="bg-white text-slate-900 hover:bg-slate-50 font-bold text-lg h-14 px-10 rounded-full shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                  <span>Daftar Sekarang</span>
-                  <span className="material-symbols-outlined text-[22px]">
-                    arrow_forward
-                  </span>
-                </button>
-              </Link>
+              <div className="bg-slate-400 text-white cursor-not-allowed font-bold text-lg h-14 px-10 rounded-full flex items-center gap-2">
+                <span>Pendaftaran Ditutup</span>
+              </div>
               <p className="mt-8 text-sm text-slate-400">
-                Pendaftaran ditutup 03 Januari 2026
+                Pendaftaran telah ditutup pada 03 Januari 2026
               </p>
             </div>
           </div>

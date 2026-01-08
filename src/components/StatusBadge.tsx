@@ -12,12 +12,8 @@ export function StatusBadge() {
     });
 
     useEffect(() => {
-        // SIMULATED DATE for Demo Purposes (Matches Timeline.tsx)
-        // Set to Dec 25, 2025 to show "Pendaftaran Dibuka"
-        const now = new Date('2025-12-25');
-
-        // Use this line for Real Production Date:
-        // const now = new Date();
+        // Use real-time date for production
+        const now = new Date();
 
         const dates = {
             sosialisasiStart: new Date('2025-12-15'),

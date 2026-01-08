@@ -88,16 +88,14 @@ export function Navbar() {
 
                     {/* Right Area: CTA & Mobile Menu */}
                     <div className="flex items-center gap-3">
-                        <Link
-                            href="/daftar"
+                        <div
                             className={cn(
-                                "hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 group",
-                                "bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                                "hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold cursor-not-allowed",
+                                "bg-slate-400 text-white dark:bg-slate-600"
                             )}
                         >
-                            <span>Daftar</span>
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                            <span>Pendaftaran Ditutup</span>
+                        </div>
 
                         {/* Mobile Menu Trigger */}
                         <Sheet>
@@ -138,15 +136,11 @@ export function Navbar() {
                                         </SheetClose>
                                     ))}
                                     <div className="my-4 h-px bg-slate-100 dark:bg-slate-800" />
-                                    <SheetClose asChild>
-                                        <Link
-                                            href="/daftar"
-                                            className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/30 active:scale-95"
-                                        >
-                                            Daftar Sekarang
-                                            <ArrowRight className="w-5 h-5" />
-                                        </Link>
-                                    </SheetClose>
+                                    <div
+                                        className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-slate-400 text-white cursor-not-allowed"
+                                    >
+                                        Pendaftaran Ditutup
+                                    </div>
                                 </div>
                             </SheetContent>
                         </Sheet>

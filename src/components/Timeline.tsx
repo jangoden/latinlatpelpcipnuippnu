@@ -70,8 +70,8 @@ export function Timeline() {
     const [currentDate, setCurrentDate] = useState<Date | null>(null);
 
     useEffect(() => {
-        // Set current date to simulated date (Dec 25, 2025) for demo purposes
-        setCurrentDate(new Date('2025-12-25'));
+        // Set current date to real-time date
+        setCurrentDate(new Date());
     }, []);
 
     const isActive = (start: string, end: string) => {
