@@ -12,44 +12,53 @@ export function StatusBadge() {
     });
 
     useEffect(() => {
-        // Use real-time date for production
-        const now = new Date();
+        const updateStatus = () => {
+            // Use real-time date for production
+            const now = new Date();
 
-        const dates = {
-            sosialisasiStart: new Date('2025-12-15'),
-            pendaftaranStart: new Date('2025-12-16'),
-            pendaftaranEnd: new Date('2026-01-03'),
-            seleksi: new Date('2026-01-04'),
-            pengumuman: new Date('2026-01-05'),
-            techMeet: new Date('2026-01-07'),
-            kegiatanStart: new Date('2026-01-09'),
-            kegiatanEnd: new Date('2026-01-11'),
+            const dates = {
+                sosialisasiStart: new Date('2025-12-15'),
+                pendaftaranStart: new Date('2025-12-16'),
+                pendaftaranEnd: new Date('2026-01-03'),
+                seleksi: new Date('2026-01-04'),
+                pengumuman: new Date('2026-01-05'),
+                techMeet: new Date('2026-01-07'),
+                kegiatanStart: new Date('2026-01-09'),
+                kegiatanEnd: new Date('2026-01-11'),
+            };
+
+            // Helper to set time to end of day for range checks
+            Object.values(dates).forEach(d => d.setHours(0, 0, 0, 0));
+            dates.pendaftaranEnd.setHours(23, 59, 59, 999);
+            dates.kegiatanEnd.setHours(23, 59, 59, 999);
+
+
+            if (now < dates.sosialisasiStart) {
+                setStatus({ label: "Segera Hadir", color: "bg-blue-500", textColor: "text-blue-700", pulse: false });
+            } else if (now < dates.pendaftaranStart) {
+                setStatus({ label: "Sosialisasi", color: "bg-blue-400", textColor: "text-blue-600", pulse: false });
+            } else if (now <= dates.pendaftaranEnd) {
+                setStatus({ label: "Pendaftaran Dibuka", color: "bg-emerald-500", textColor: "text-emerald-700", pulse: true });
+            } else if (now <= dates.seleksi) {
+                setStatus({ label: "Seleksi Berkas", color: "bg-orange-500", textColor: "text-orange-600", pulse: false });
+            } else if (now <= dates.pengumuman) {
+                setStatus({ label: "Pengumuman", color: "bg-purple-500", textColor: "text-purple-600", pulse: true });
+            } else if (now < dates.kegiatanStart) {
+                setStatus({ label: "Menuju Kegiatan", color: "bg-blue-500", textColor: "text-blue-600", pulse: false });
+            } else if (now <= dates.kegiatanEnd) {
+                setStatus({ label: "Kegiatan Berlangsung", color: "bg-red-500", textColor: "text-red-700", pulse: true });
+            } else {
+                setStatus({ label: "Kegiatan Selesai", color: "bg-slate-400", textColor: "text-slate-500", pulse: false });
+            }
         };
 
-        // Helper to set time to end of day for range checks
-        Object.values(dates).forEach(d => d.setHours(0, 0, 0, 0));
-        dates.pendaftaranEnd.setHours(23, 59, 59, 999);
-        dates.kegiatanEnd.setHours(23, 59, 59, 999);
+        // Initial update
+        updateStatus();
 
+        // Auto-update every minute
+        const interval = setInterval(updateStatus, 60000);
 
-        if (now < dates.sosialisasiStart) {
-            setStatus({ label: "Segera Hadir", color: "bg-blue-500", textColor: "text-blue-700", pulse: false });
-        } else if (now < dates.pendaftaranStart) {
-            setStatus({ label: "Sosialisasi", color: "bg-blue-400", textColor: "text-blue-600", pulse: false });
-        } else if (now <= dates.pendaftaranEnd) {
-            setStatus({ label: "Pendaftaran Dibuka", color: "bg-emerald-500", textColor: "text-emerald-700", pulse: true });
-        } else if (now <= dates.seleksi) {
-            setStatus({ label: "Seleksi Berkas", color: "bg-orange-500", textColor: "text-orange-600", pulse: false });
-        } else if (now <= dates.pengumuman) {
-            setStatus({ label: "Pengumuman", color: "bg-purple-500", textColor: "text-purple-600", pulse: true });
-        } else if (now < dates.kegiatanStart) {
-            setStatus({ label: "Menuju Kegiatan", color: "bg-blue-500", textColor: "text-blue-600", pulse: false });
-        } else if (now <= dates.kegiatanEnd) {
-            setStatus({ label: "Kegiatan Berlangsung", color: "bg-red-500", textColor: "text-red-700", pulse: true });
-        } else {
-            setStatus({ label: "Kegiatan Selesai", color: "bg-slate-400", textColor: "text-slate-500", pulse: false });
-        }
-
+        return () => clearInterval(interval);
     }, []);
 
     return (
