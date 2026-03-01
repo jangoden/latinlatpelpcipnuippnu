@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Pendaftaran Peserta",
-    description: "Formulir pendaftaran peserta Latin & Latpel 2026 PC IPNU IPPNU Ciamis. Daftar sekarang!",
+    title: "Pendaftaran MAP NU",
+    description: "Informasi pendaftaran Madrasah Aswaja Pelajar NU (MAP NU) dalam rangkaian Harlah IPNU ke-72 & IPPNU ke-71 PC IPNU IPPNU Ciamis.",
 };
 
 export default function DaftarLayout({

@@ -17,36 +17,32 @@ export function StatusBadge() {
             const now = new Date();
 
             const dates = {
-                sosialisasiStart: new Date('2025-12-15'),
-                pendaftaranStart: new Date('2025-12-16'),
-                pendaftaranEnd: new Date('2026-01-03'),
-                seleksi: new Date('2026-01-04'),
-                pengumuman: new Date('2026-01-05'),
-                techMeet: new Date('2026-01-07'),
-                kegiatanStart: new Date('2026-01-09'),
-                kegiatanEnd: new Date('2026-01-11'),
+                pendaftaranStart: new Date('2026-03-01'),
+                pendaftaranEnd: new Date('2026-03-15'),
+                pasaranKitab1: new Date('2026-03-18'),
+                pasaranKitab2: new Date('2026-03-19'),
+                persiapanMapNu: new Date('2026-03-20'),
+                mapNuHarlah: new Date('2026-03-21'),
             };
 
             // Helper to set time to end of day for range checks
             Object.values(dates).forEach(d => d.setHours(0, 0, 0, 0));
             dates.pendaftaranEnd.setHours(23, 59, 59, 999);
-            dates.kegiatanEnd.setHours(23, 59, 59, 999);
+            dates.mapNuHarlah.setHours(23, 59, 59, 999);
 
 
-            if (now < dates.sosialisasiStart) {
+            if (now < dates.pendaftaranStart) {
                 setStatus({ label: "Segera Hadir", color: "bg-blue-500", textColor: "text-blue-700", pulse: false });
-            } else if (now < dates.pendaftaranStart) {
-                setStatus({ label: "Sosialisasi", color: "bg-blue-400", textColor: "text-blue-600", pulse: false });
             } else if (now <= dates.pendaftaranEnd) {
                 setStatus({ label: "Pendaftaran Dibuka", color: "bg-emerald-500", textColor: "text-emerald-700", pulse: true });
-            } else if (now <= dates.seleksi) {
-                setStatus({ label: "Seleksi Berkas", color: "bg-orange-500", textColor: "text-orange-600", pulse: false });
-            } else if (now <= dates.pengumuman) {
-                setStatus({ label: "Pengumuman", color: "bg-purple-500", textColor: "text-purple-600", pulse: true });
-            } else if (now < dates.kegiatanStart) {
+            } else if (now < dates.pasaranKitab1) {
                 setStatus({ label: "Menuju Kegiatan", color: "bg-blue-500", textColor: "text-blue-600", pulse: false });
-            } else if (now <= dates.kegiatanEnd) {
-                setStatus({ label: "Kegiatan Berlangsung", color: "bg-red-500", textColor: "text-red-700", pulse: true });
+            } else if (now <= dates.pasaranKitab2) {
+                setStatus({ label: "Pasaran Kitab", color: "bg-emerald-500", textColor: "text-emerald-700", pulse: true });
+            } else if (now <= dates.persiapanMapNu) {
+                setStatus({ label: "Persiapan MAP NU", color: "bg-purple-500", textColor: "text-purple-600", pulse: false });
+            } else if (now <= dates.mapNuHarlah) {
+                setStatus({ label: "MAP NU & Harlah", color: "bg-red-500", textColor: "text-red-700", pulse: true });
             } else {
                 setStatus({ label: "Kegiatan Selesai", color: "bg-slate-400", textColor: "text-slate-500", pulse: false });
             }

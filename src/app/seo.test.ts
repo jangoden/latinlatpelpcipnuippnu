@@ -41,8 +41,8 @@ describe('SEO Configuration', () => {
     describe('manifest', () => {
         it('should generate correct web manifest', () => {
             const result = manifest();
-            expect(result.name).toBe('LATIN & LATPEL 2026 PC IPNU IPPNU Ciamis');
-            expect(result.short_name).toBe('LATIN 2026');
+            expect(result.name).toBe('Harlah & MAP NU 2026 PC IPNU IPPNU Ciamis');
+            expect(result.short_name).toBe('Harlah 2026');
             expect(result.theme_color).toBe('#10b981');
             expect(result.display).toBe('standalone');
             expect(result.lang).toBe('id');

@@ -2,140 +2,93 @@
 
 
 import { Navbar } from '@/components/Navbar';
-import { SpotifyPlaylist } from '@/components/SpotifyPlaylist';
 import Image from 'next/image';
 import React from 'react';
 
 const rundownData = [
     {
-        date: "Jum'at, 09 Januari 2026",
+        date: "Rabu, 21 Ramadhan 1447 H — Pasaran Kitab Hari 1",
         schedule: [
-            { time: "08.00 - 13.30", activity: "Registrasi Peserta", person: "Sie. Kesekretariatan" },
+            { time: "08.00 - 10.00", activity: "Kajian Qanun Asasi NU — Sesi 1", person: "Fulan" },
+            { time: "10.00 - 12.30", activity: "Istirahat, Sholat Dzuhur", person: "All Person" },
+            { time: "12.30 - 14.30", activity: "Kajian Qanun Asasi NU — Sesi 2", person: "Fulan" },
+            { time: "14.30 - 15.30", activity: "Istirahat, Sholat Ashar", person: "All Person" },
+            { time: "15.30 - 17.00", activity: "Kajian Qanun Asasi NU — Sesi 3", person: "Fulan" },
+            { time: "17.00 - 20.30", activity: "Buka Bersama, Sholat Magrib, Isya, Tarawih", person: "All Person" },
+            { time: "20.30 - 22.00", activity: "Kajian Qanun Asasi NU — Sesi 4", person: "Fulan" },
+        ]
+    },
+    {
+        date: "Kamis, 22 Ramadhan 1447 H — Pasaran Kitab Hari 2",
+        schedule: [
+            { time: "08.00 - 10.00", activity: "Kajian Risalah Aswaja — Sesi 1", person: "Fulan" },
+            { time: "10.00 - 12.30", activity: "Istirahat, Sholat Dzuhur", person: "All Person" },
+            { time: "12.30 - 14.30", activity: "Kajian Risalah Aswaja — Sesi 2", person: "Fulan" },
+            { time: "14.30 - 15.30", activity: "Istirahat, Sholat Ashar", person: "All Person" },
+            { time: "15.30 - 17.00", activity: "Kajian Risalah Aswaja — Sesi 3", person: "Fulan" },
+            { time: "17.00 - 20.30", activity: "Buka Bersama, Sholat Magrib, Isya, Tarawih", person: "All Person" },
+            { time: "20.30 - 22.00", activity: "Kajian Risalah Aswaja — Sesi 4", person: "Fulan" },
+        ]
+    },
+    {
+        date: "Jum'at, 23 Ramadhan 1447 H — Persiapan MAP NU",
+        schedule: [
+            { time: "Seharian", activity: "Persiapan Teknis MAP NU di Asrama Haji", person: "Panitia" },
+        ]
+    },
+    {
+        date: "Sabtu, 24 Ramadhan 1447 H — MAP NU & Resepsi Harlah",
+        schedule: [
+            { time: "07.00 - 08.00", activity: "Check In Peserta", person: "Sie. Kesekretariatan" },
             {
-                time: "13.30 - 15.00",
-                activity: "UPACARA PEMBUKAAN",
-                person: "MC: Rekanita Annisa Nurhanidah",
+                time: "08.00 - 10.00",
+                activity: "PEMBUKAAN MAP NU",
+                person: "Panitia",
                 details: [
-                    { label: "Menyanyikan Lagu Kebangsaan Indonesia Raya & Pembacaan Ayat Suci Al-Qur'an", person: "Rekanita Delis Yayi Siti Maryam & Rekanita Nizma" },
-                    { label: "Tawasul", person: "Rekan Bagus Pribadi" },
-                    { label: "Menyanyikan Lagu: Mars IPNU, Mars IPPNU, Syubanul Wathon", person: "Dirigen: Rekanita Delis Yayi / Alis" },
-                    { label: "Prakata Ketua Panitia", person: "-" },
-                    { label: "Sambutan Ketua PC IPNU Ciamis", person: "Rekan Irman Muhamad Farhan" },
-                    { label: "Sambutan Ketua PC IPPNU Ciamis", person: "Rekanita Nia Siti Kurniasari" },
-                    { label: "Sambutan Ketua PW IPNU Jawa Barat", person: "Rekan Akbar Abdul Aziz" },
-                    { label: "Sambutan Ketua PW IPPNU Jawa Barat", person: "Rekanita Renita" },
-                    { label: "Sambutan Ketua Tanfidziah PCNU Ciamis", person: "KH. Arief Ismail Chowas, S.Ag" },
-                    { label: "Sambutan Bupati Ciamis", person: "Dr. H. Herdiat Sunarya" },
-                    { label: "Do'a", person: "Ky. Anas Nasrudin (Pimp. PP Baitul Hikam As Shofa)" },
+                    { label: "Pembukaan Resmi", person: "MC" },
+                    { label: "Sambutan Ketua Panitia", person: "Irfan Hanapi" },
+                    { label: "Sambutan Ketua PC IPNU Ciamis", person: "Irman Muhamad Farhan" },
+                    { label: "Sambutan Ketua PC IPPNU Ciamis", person: "Nia Siti Kurniasari" },
+                    { label: "Do'a", person: "-" },
                 ]
             },
-            { time: "15.00 - 15.30", activity: "Kontrak Forum & Pre Test", person: "Instruktur / All Person" },
-            { time: "15.30 - 16.00", activity: "Sholat Ashar", person: "All Person" },
             {
-                time: "16.00 - 17.30",
-                activity: "MATERI 1: ASWAJA DAN KE-NU-AN",
-                person: "Kyai Tatang Nawawi, S.Pd.I",
-                description: "Metode penanaman Aswaja, Implementasi pembelajaran, Aswaja sebagai benteng aqidah"
+                time: "10.00 - 12.00",
+                activity: "MATERI I: IDEOLOGI ASWAJA AN-NAHDLIYAH",
+                person: "Fulan",
+                description: "Definisi kontekstual Aswaja, analogi pentingnya bermadzhab, dekonstruksi makna bid'ah, dalil praktis amaliah keseharian"
             },
-            { time: "17.30 - 18.30", activity: "ISHOMA", person: "Sie. Konsumsi" },
-            { time: "18.30 - 20.00", activity: "Istighosah dan Shalat Isya", person: "Panitia" },
+            { time: "12.00 - 12.30", activity: "Istirahat, Sholat Dzuhur", person: "All Person" },
             {
-                time: "20.00 - 21.30",
-                activity: "MATERI 2: SISTEM KADERISASI 1",
-                person: "Muhamad Khotami, S.H., CPM",
-                description: "Pengertian, Bentuk, Jenjang, dan Kaderisasi Lokal"
+                time: "12.30 - 14.30",
+                activity: "MATERI II: ORIENTASI PERGERAKAN PELAJAR NU",
+                person: "Fulan",
+                description: "Tafsir ayat dalam Qanun Asasi, bahaya fanatisme, organisasi sebagai alat perjuangan, ukhuwah di lingkungan pendidikan"
             },
+            { time: "14.30 - 15.30", activity: "Istirahat, Sholat Ashar", person: "All Person" },
             {
-                time: "21.30 - 23.00",
-                activity: "MATERI 3: REVIEW MATERI MAKESTA DAN LAKMUD",
-                person: "Instruktur",
-                description: "Inventarisir & Pemetaan Materi Makesta dan Lakmud"
+                time: "15.30 - 17.30",
+                activity: "MATERI III: KARAKTERISTIK PELAJAR NU DI ERA DIGITAL",
+                person: "Fulan",
+                description: "Membumikan 4 pilar fikrah Nahdliyah, urgensi sanad keilmuan digital, adab pelajar NU di medsos, strategi dakwah digital"
             },
-            { time: "23.00 - 00.00", activity: "Focus Group Discussion (FGD)", person: "Instruktur" },
-            { time: "00.00 - 04.00", activity: "Istirahat", person: "All Person" },
-        ]
-    },
-    {
-        date: "Sabtu, 10 Januari 2026",
-        schedule: [
-            { time: "04.00 - 04.30", activity: "Persiapan dan Shalat Shubuh", person: "All Person" },
-            { time: "04.30 - 05.30", activity: "Kultum Pagi dan Waqiah", person: "Panitia" },
-            { time: "05.30 - 06.30", activity: "Olahraga", person: "Panitia" },
-            { time: "06.30 - 08.00", activity: "Sarapan dan Persiapan", person: "Sie. Konsumsi" },
+            { time: "17.30 - 20.30", activity: "Buka Bersama, Sholat Magrib, Isya, Tarawih", person: "All Person" },
             {
-                time: "08.00 - 09.30",
-                activity: "MATERI 4: PSIKOLOGI PELATIHAN KADER",
-                person: "Ai Ratna Intan Solihah, S.Sos, M.Sos.",
-                description: "Pengertian, Fungsi, dan Strategi Pengelolaan Forum"
+                time: "20.30 - 21.00",
+                activity: "RESEPSI HARLAH IPNU KE-72 & IPPNU KE-71",
+                person: "Panitia",
+                details: [
+                    { label: "Potong Tumpeng", person: "Panitia" },
+                    { label: "Launching Website Resmi IPNU Ciamis", person: "Panitia" },
+                ]
             },
             {
-                time: "09.30 - 11.00",
-                activity: "MATERI 5: METODE DAN MEDIA PELATIHAN",
-                person: "Dr. KH. Kusoy Fadiliah, M.Si.",
-                description: "Pengertian, Fungsi, dan Macam-macam Metode/Media"
+                time: "21.00 - 22.00",
+                activity: "REFLEKSI HARLAH IPNU KE-72 & IPPNU KE-71",
+                person: "Fulan",
+                description: "Talk Show sejarah singkat dan kilas balik perjuangan"
             },
-            {
-                time: "11.00 - 12.30",
-                activity: "MATERI 6: METODOLOGI DAN EVALUASI PELATIHAN KADER",
-                person: "Moch Wahab Hasbulloh, S.Pd.I, SE, Sy.",
-                description: "Prinsip dasar, Manfaat, Tujuan, Jenis evaluasi"
-            },
-            { time: "12.30 - 13.30", activity: "ISHOMA", person: "Sie. Konsumsi" },
-            {
-                time: "13.30 - 15.00",
-                activity: "MATERI 7: FALSAFAH DAN PENDEKATAN PELATIHAN KADER",
-                person: "Asep Irfan Mujahid, S.Pd.I",
-                description: "Pengertian falsafah, Jenis pendekatan, Paradigma, Pendekatan kader IPNU"
-            },
-            { time: "15.00 - 15.30", activity: "Sholat Ashar", person: "All Person" },
-            {
-                time: "15.30 - 17.00",
-                activity: "MATERI 8: MANAJEMEN PELATIHAN 1",
-                person: "H. Nana Supriatna, S.Ag., M.A",
-                description: "Unsur & fungsi, Analisis kebutuhan, Merancang pelatihan, Metode penerapan"
-            },
-            { time: "17.00 - 18.30", activity: "ISHOMA", person: "Sie. Konsumsi" },
-            { time: "18.30 - 19.30", activity: "Maulid Barjanji / Diba dan Shalat Isya", person: "Panitia" },
-            {
-                time: "19.30 - 21.00",
-                activity: "MATERI 9: PRAKTEK PUBLIC SPEAKING",
-                person: "Cucu Umi Nur Faridah, M.H",
-                description: "Pengertian, Persiapan, Mengatasi kegugupan"
-            },
-            {
-                time: "21.00 - 22.30",
-                activity: "MATERI 10: KEINSTRUKTURAN 1, KEPELATIHAN 1",
-                person: "Instruktur",
-                description: "Pengertian, Peran, Fungsi, Keterampilan dasar Instruktur"
-            },
-            {
-                time: "22.30 - 00.00",
-                activity: "MATERI 11: BERMAIN DAN BELAJAR",
-                person: "Instruktur",
-                description: "Fungsi permainan, Jenis: energizer/ice breaking/outbound, Pemetaan"
-            },
-            { time: "00.00 - 01.00", activity: "Focus Group Discussion (FGD)", person: "Instruktur" },
-            { time: "01.00 - 04.00", activity: "Tidur", person: "All Person" },
-        ]
-    },
-    {
-        date: "Ahad, 11 Januari 2026",
-        schedule: [
-            { time: "04.00 - 04.30", activity: "Persiapan dan Shalat Shubuh", person: "All Person" },
-            { time: "04.30 - 05.30", activity: "Kultum Pagi dan Waqiah", person: "Panitia" },
-            { time: "05.30 - 06.30", activity: "Olahraga", person: "Panitia CBP/KPP" },
-            { time: "06.30 - 08.00", activity: "Sarapan dan Persiapan", person: "Sie. Konsumsi" },
-            {
-                time: "08.00 - 09.30",
-                activity: "MATERI 12: PRAKTIK FASILITASI PELATIHAN",
-                person: "Yudi Riyadi, SE, Sy., S.I.Pust, M.Pd.",
-                description: "Pengertian fasilitasi, Menjadi fasilitator baik, Keterampilan Fasilitator"
-            },
-            { time: "09.30 - 12.30", activity: "FGD dan Praktik Fasilitasi Pelatihan", person: "Instruktur PC/PW" },
-            { time: "12.30 - 13.00", activity: "Evaluasi dan Post Test", person: "Instruktur PC" },
-            { time: "13.00 - 14.00", activity: "ISHOMA", person: "Sie. Konsumsi" },
-            { time: "14.00 - 15.00", activity: "Pembai'atan dan Penutupan", person: "Panitia" },
-            { time: "15.00 - 16.00", activity: "Rencana Tindak Lanjut", person: "Instruktur PC" },
+            { time: "22.00 - 23.00", activity: "Penutupan", person: "Panitia" },
         ]
     }
 ];
@@ -164,7 +117,7 @@ export default function AcaraPage() {
 
                                 {/* Window Title */}
                                 <div className="flex-1 text-center">
-                                    <span className="text-xs font-medium text-white/90">Latin & Latpel 2026 — PC IPNU IPPNU Ciamis</span>
+                                    <span className="text-xs font-medium text-white/90">Harlah & MAP NU 2026 — PC IPNU IPPNU Ciamis</span>
                                 </div>
 
                                 {/* Spacer for balance */}
@@ -175,7 +128,7 @@ export default function AcaraPage() {
                             <div className="relative bg-white dark:bg-slate-900 rounded-b-xl overflow-hidden">
                                 <Image
                                     src="/images/Bannerr.webp"
-                                    alt="Banner Latin & Latpel PC IPNU IPPNU Ciamis"
+                                    alt="Banner Harlah & MAP NU PC IPNU IPPNU Ciamis"
                                     width={1920}
                                     height={1080}
                                     className="w-full h-auto object-cover"
@@ -205,7 +158,7 @@ export default function AcaraPage() {
                             Rundown Kegiatan
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                            Jadwal lengkap Latin & Latpel Angkatan 1. Pastikan Anda disiplin mengikuti setiap sesi.
+                            Jadwal lengkap rangkaian Harlah & MAP NU. Pastikan Anda mengikuti setiap sesi dengan tertib.
                         </p>
                     </div>
 
@@ -306,9 +259,6 @@ export default function AcaraPage() {
                         ))}
                     </div>
 
-                    <div className="mt-16 animate-fade-in-up">
-                        <SpotifyPlaylist />
-                    </div>
                 </div>
             </div>
         </>

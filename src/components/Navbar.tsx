@@ -29,7 +29,7 @@ export function Navbar() {
         { name: "Beranda", href: "/" },
         { name: "Tentang", href: "/#about" },
         { name: "Timeline", href: "/#schedule" },
-        { name: "Syarat", href: "/#requirements" },
+        { name: "Ketentuan", href: "/#requirements" },
         { name: "Acara", href: "/acara" },
     ];
 
@@ -68,7 +68,7 @@ export function Navbar() {
                                 PC IPNU IPPNU CIAMIS
                             </span>
                             <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
-                                Latin & Latpel
+                                Harlah & MAP NU
                             </span>
                         </div>
                     </Link>
@@ -88,14 +88,15 @@ export function Navbar() {
 
                     {/* Right Area: CTA & Mobile Menu */}
                     <div className="flex items-center gap-3">
-                        <div
+                        <Link
+                            href="/daftar"
                             className={cn(
-                                "hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold cursor-not-allowed",
-                                "bg-slate-400 text-white dark:bg-slate-600"
+                                "hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold",
+                                "bg-primary hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all"
                             )}
                         >
-                            <span>Pendaftaran Ditutup</span>
-                        </div>
+                            <span>Info Pendaftaran</span>
+                        </Link>
 
                         {/* Mobile Menu Trigger */}
                         <Sheet>
@@ -136,11 +137,12 @@ export function Navbar() {
                                         </SheetClose>
                                     ))}
                                     <div className="my-4 h-px bg-slate-100 dark:bg-slate-800" />
-                                    <div
-                                        className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-slate-400 text-white cursor-not-allowed"
+                                    <Link
+                                        href="/daftar"
+                                        className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-primary hover:bg-blue-700 text-white transition-all"
                                     >
-                                        Pendaftaran Ditutup
-                                    </div>
+                                        Info Pendaftaran
+                                    </Link>
                                 </div>
                             </SheetContent>
                         </Sheet>

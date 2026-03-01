@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Rundown Kegiatan",
-    description: "Jadwal lengkap kegiatan Latin & Latpel 2026 PC IPNU IPPNU Ciamis.",
+    description: "Jadwal lengkap rangkaian kegiatan Harlah & MAP NU 2026 PC IPNU IPPNU Ciamis.",
 };
 
 export default function AcaraLayout({

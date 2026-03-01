@@ -2,64 +2,54 @@
 
 import React, { useEffect, useState } from "react";
 
-// Define the schedule data
+// Define the schedule data for Harlah & MAP NU
 const scheduleData = [
     {
-        title: "Sosialisasi Latin & Latpel",
-        desc: "Penyebaran informasi ke seluruh pimpinan dan kader.",
-        dateDisplay: "15 Desember 2025",
-        startDate: "2025-12-15",
-        endDate: "2025-12-15",
+        title: "Pendaftaran MAP NU",
+        desc: "Pendaftaran delegasi resmi dari pimpinan (PAC/PK/PR/PAR).",
+        dateDisplay: "Segera Diumumkan",
+        startDate: "2026-03-01",
+        endDate: "2026-03-15",
         color: "primary",
         bgColor: "bg-blue-50",
         textColor: "text-primary",
     },
     {
-        title: "Pendaftaran Peserta",
-        desc: "Masa pendaftaran dan pengumpulan berkas persyaratan.",
-        dateDisplay: "16 Des 2025 - 03 Jan 2026",
-        startDate: "2025-12-16",
-        endDate: "2026-01-03",
+        title: "Pasaran Kitab — Hari 1",
+        desc: "Kajian Qanun Asasi NU di Mesjid An-Namiroh.",
+        dateDisplay: "Rabu, 21 Ramadhan 1447 H",
+        startDate: "2026-03-18",
+        endDate: "2026-03-18",
         color: "emerald-500",
         bgColor: "bg-emerald-50",
         textColor: "text-emerald-600",
     },
     {
-        title: "Seleksi Berkas & Screening",
-        desc: "Verifikasi kelayakan peserta oleh panitia SC.",
-        dateDisplay: "04 Januari 2026",
-        startDate: "2026-01-04",
-        endDate: "2026-01-04",
+        title: "Pasaran Kitab — Hari 2",
+        desc: "Kajian Risalah Aswaja di Mesjid An-Namiroh.",
+        dateDisplay: "Kamis, 22 Ramadhan 1447 H",
+        startDate: "2026-03-19",
+        endDate: "2026-03-19",
         color: "orange-500",
         bgColor: "bg-orange-50",
         textColor: "text-orange-600",
     },
     {
-        title: "Pengumuman Kepesertaan",
-        desc: "Publikasi peserta yang dinyatakan lolos seleksi.",
-        dateDisplay: "05 Januari 2026",
-        startDate: "2026-01-05",
-        endDate: "2026-01-05",
+        title: "Persiapan MAP NU",
+        desc: "Persiapan teknis MAP NU di Asrama Haji.",
+        dateDisplay: "Jum'at, 23 Ramadhan 1447 H",
+        startDate: "2026-03-20",
+        endDate: "2026-03-20",
         color: "purple-500",
         bgColor: "bg-purple-50",
         textColor: "text-purple-600",
     },
     {
-        title: "Technical Meeting",
-        desc: "Pembekalan awal dan penjelasan teknis pelaksanaan.",
-        dateDisplay: "07 Januari 2026",
-        startDate: "2026-01-07",
-        endDate: "2026-01-07",
-        color: "pink-500",
-        bgColor: "bg-pink-50",
-        textColor: "text-pink-600",
-    },
-    {
-        title: "Pelaksanaan Kegiatan",
-        desc: "Pelaksanaan Latpel di Pondok Pesantren Baitul Hikmah.",
-        dateDisplay: "09 - 11 Januari 2026",
-        startDate: "2026-01-09",
-        endDate: "2026-01-11",
+        title: "MAP NU & Resepsi Harlah",
+        desc: "Madrasah Aswaja Pelajar NU + Harlah IPNU ke-72 & IPPNU ke-71.",
+        dateDisplay: "Sabtu, 24 Ramadhan 1447 H",
+        startDate: "2026-03-21",
+        endDate: "2026-03-21",
         color: "red-500",
         bgColor: "bg-red-50",
         textColor: "text-red-600",
@@ -111,8 +101,7 @@ export function Timeline() {
                                 item.color === 'emerald-500' ? 'bg-emerald-500' :
                                     item.color === 'orange-500' ? 'bg-orange-500' :
                                         item.color === 'purple-500' ? 'bg-purple-500' :
-                                            item.color === 'pink-500' ? 'bg-pink-500' :
-                                                'bg-red-500';
+                                            'bg-red-500';
 
                         // Dynamic border for the dot
                         const borderColorClass =
@@ -120,8 +109,7 @@ export function Timeline() {
                                 item.color === 'emerald-500' ? 'border-emerald-500' :
                                     item.color === 'orange-500' ? 'border-orange-500' :
                                         item.color === 'purple-500' ? 'border-purple-500' :
-                                            item.color === 'pink-500' ? 'border-pink-500' :
-                                                'border-red-500';
+                                            'border-red-500';
 
                         // Shared Content Component
                         const TimelineContent = () => (

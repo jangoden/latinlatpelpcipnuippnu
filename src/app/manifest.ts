@@ -2,10 +2,10 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'LATIN & LATPEL 2026 PC IPNU IPPNU Ciamis',
-    short_name: 'LATIN 2026',
+    name: 'Harlah & MAP NU 2026 PC IPNU IPPNU Ciamis',
+    short_name: 'Harlah 2026',
     description:
-      'Akselerasi Instruktur dan Pelatih Profesional yang Berkelanjutan oleh PC IPNU IPPNU Kabupaten Ciamis.',
+      'Meneguhkan Khidmat Pelajar Menuju Peradaban Mulia — Harlah IPNU ke-72 & IPPNU ke-71 dan MAP NU oleh PC IPNU IPPNU Kabupaten Ciamis.',
     start_url: '/',
     scope: '/',
     display: 'standalone',
