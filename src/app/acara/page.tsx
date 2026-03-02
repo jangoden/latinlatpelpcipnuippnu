@@ -2,7 +2,6 @@
 
 
 import { Navbar } from '@/components/Navbar';
-import Image from 'next/image';
 import React from 'react';
 
 const rundownData = [
@@ -100,54 +99,7 @@ export default function AcaraPage() {
             <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-32 pb-20 px-4 md:px-8">
                 <div className="max-w-6xl mx-auto">
 
-                    {/* Hero Banner - MacBook Style Frame */}
-                    <div className="mb-16 animate-fade-in-up">
-                        <div className="relative w-full overflow-hidden rounded-2xl shadow-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 p-1">
-                            {/* Glossy reflection overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none rounded-2xl" />
 
-                            {/* Window Title Bar */}
-                            <div className="relative bg-gradient-to-r from-indigo-500/90 via-purple-500/90 to-blue-500/90 backdrop-blur-sm px-4 py-3 flex items-center gap-2 rounded-t-xl">
-                                {/* Traffic Light Buttons */}
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-red-400 shadow-inner border border-red-500/50 hover:bg-red-300 transition-colors" />
-                                    <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-inner border border-yellow-500/50 hover:bg-yellow-300 transition-colors" />
-                                    <div className="w-3 h-3 rounded-full bg-green-400 shadow-inner border border-green-500/50 hover:bg-green-300 transition-colors" />
-                                </div>
-
-                                {/* Window Title */}
-                                <div className="flex-1 text-center">
-                                    <span className="text-xs font-medium text-white/90">Harlah & MAP NU 2026 — PC IPNU IPPNU Ciamis</span>
-                                </div>
-
-                                {/* Spacer for balance */}
-                                <div className="w-14" />
-                            </div>
-
-                            {/* Content Area */}
-                            <div className="relative bg-white dark:bg-slate-900 rounded-b-xl overflow-hidden">
-                                <Image
-                                    src="/images/Bannerr.webp"
-                                    alt="Banner Harlah & MAP NU PC IPNU IPPNU Ciamis"
-                                    width={1920}
-                                    height={1080}
-                                    className="w-full h-auto object-cover"
-                                    priority
-                                />
-                            </div>
-
-                            {/* Bottom glossy edge */}
-                            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-purple-900/30 to-transparent rounded-b-2xl" />
-                        </div>
-
-                        {/* MacBook Stand/Shadow */}
-                        <div className="flex justify-center mt-2">
-                            <div className="w-1/4 h-2 bg-gradient-to-b from-purple-300 to-indigo-200 rounded-b-lg shadow-md" />
-                        </div>
-                        <div className="flex justify-center">
-                            <div className="w-1/3 h-1 bg-gradient-to-b from-indigo-200 to-purple-100 rounded-b-xl" />
-                        </div>
-                    </div>
 
                     {/* Schedule Header */}
                     <div className="text-center mb-16 animate-fade-in-up">
