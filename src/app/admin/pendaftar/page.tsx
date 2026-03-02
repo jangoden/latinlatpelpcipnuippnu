@@ -20,7 +20,6 @@ import { useToast } from '@/hooks/use-toast';
 type Registrant = {
     id: string;
     full_name: string;
-    nik: string;
     email: string;
     gender: string;
     org_name: string;
@@ -69,11 +68,11 @@ export default function PendaftarPage() {
         try {
             let query = supabase
                 .from('registrants')
-                .select('id, full_name, nik, email, gender, org_name, jabatan, phone_number, created_at', { count: 'exact' });
+                .select('id, full_name, email, gender, org_name, jabatan, phone_number, created_at', { count: 'exact' });
 
             // Apply search filter
             if (searchQuery) {
-                query = query.or(`full_name.ilike.%${searchQuery}%,nik.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,org_name.ilike.%${searchQuery}%`);
+                query = query.or(`full_name.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,org_name.ilike.%${searchQuery}%`);
             }
 
             // Pagination
@@ -148,7 +147,6 @@ export default function PendaftarPage() {
             const formattedData = allData.map((item, index) => ({
                 "No": index + 1,
                 "Nama Lengkap": item.full_name,
-                "NIK": `'${item.nik}`, // Force string to prevent scientific notation
                 "Gender": item.gender === 'ipnu' ? 'Rekan (IPNU)' : 'Rekanita (IPPNU)',
                 "NIA": item.nia ? `'${item.nia}` : '-',
                 "Email": item.email,

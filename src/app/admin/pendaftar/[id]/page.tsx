@@ -23,7 +23,6 @@ import { useToast } from '@/hooks/use-toast';
 type Registrant = {
     id: string;
     full_name: string;
-    nik: string;
     gender: string;
     birth_place: string;
     birth_date: string;
@@ -151,7 +150,6 @@ export default function RegistrantDetailPage() {
                 </div>
                 <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <InfoRow icon={User} label="Nama Lengkap" value={registrant.full_name} />
-                    <InfoRow icon={CreditCard} label="NIK" value={registrant.nik} />
                     <InfoRow icon={MapPin} label="Tempat Lahir" value={registrant.birth_place} />
                     <InfoRow icon={Calendar} label="Tanggal Lahir" value={birthDateFormatted} />
                     <div className="sm:col-span-2">
