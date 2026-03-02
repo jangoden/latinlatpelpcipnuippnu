@@ -73,7 +73,7 @@ export default function LoginPage() {
                             </div>
                         </div>
                         <h1 className="text-2xl font-bold text-white mb-2">Admin Dashboard</h1>
-                        <p className="text-slate-400 text-sm">Latin & Latpel 2026 - PC IPNU IPPNU Ciamis</p>
+                        <p className="text-slate-400 text-sm">Harlah &amp; MAP NU 2026 - PC IPNU IPPNU Ciamis</p>
                     </div>
 
                     {/* Form */}

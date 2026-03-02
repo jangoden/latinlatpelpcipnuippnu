@@ -189,7 +189,7 @@ export default function PendaftarPage() {
             XLSX.utils.book_append_sheet(workbook, worksheet, "Data Pendaftar");
 
             // Save File
-            XLSX.writeFile(workbook, `Data_Pendaftar_LatinLatpel_${new Date().toISOString().split('T')[0]}.xlsx`);
+            XLSX.writeFile(workbook, `Data_Pendaftar_HarlahMapNU_${new Date().toISOString().split('T')[0]}.xlsx`);
 
             toast({
                 title: "Berhasil Export",

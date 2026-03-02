@@ -65,7 +65,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         </div>
                         <div>
                             <h1 className="text-white font-bold text-sm">Admin Panel</h1>
-                            <p className="text-slate-500 text-xs">Latin & Latpel 2026</p>
+                            <p className="text-slate-500 text-xs">Harlah &amp; MAP NU 2026</p>
                         </div>
                     </div>
                     <button
@@ -86,8 +86,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 href={item.href}
                                 onClick={() => setSidebarOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
-                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 <item.icon className={`w-5 h-5 ${isActive ? 'text-emerald-400' : ''}`} />

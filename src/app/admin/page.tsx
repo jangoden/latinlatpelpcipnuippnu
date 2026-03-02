@@ -116,7 +116,7 @@ export default function AdminDashboard() {
             {/* Page Header */}
             <div>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-                <p className="text-slate-500 dark:text-slate-400">Selamat datang di Admin Panel Latin & Latpel 2026</p>
+                <p className="text-slate-500 dark:text-slate-400">Selamat datang di Admin Panel Harlah &amp; MAP NU 2026</p>
             </div>
 
             {/* Stats Cards */}
