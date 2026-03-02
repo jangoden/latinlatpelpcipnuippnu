@@ -18,9 +18,9 @@ type Registrant = {
     full_name: string;
     gender: string;
     org_name: string;
+    jabatan: string | null;
+    phone_number: string | null;
     created_at: string;
-    instagram_video_link: string;
-    file_urls: { [key: string]: string } | null;
 };
 
 export default function AdminDashboard() {
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
             // Fetch recent 5 registrants
             const { data: recentData, error: recentError } = await supabase
                 .from('registrants')
-                .select('id, full_name, gender, org_name, created_at, instagram_video_link, file_urls')
+                .select('id, full_name, gender, org_name, jabatan, phone_number, created_at')
                 .order('created_at', { ascending: false })
                 .limit(5);
 
@@ -155,8 +155,8 @@ export default function AdminDashboard() {
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Gender</th>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Delegasi</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Instagram</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Esai</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Jabatan</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">No. HP</th>
                                 <th className="px-6 py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
                             </tr>
                         </thead>
@@ -178,20 +178,8 @@ export default function AdminDashboard() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{registrant.org_name || '-'}</td>
-                                        <td className="px-6 py-4 text-sm">
-                                            {registrant.instagram_video_link ? (
-                                                <Link href={registrant.instagram_video_link} target="_blank" className="text-blue-600 hover:underline text-xs flex items-center gap-1">
-                                                    Lihat
-                                                </Link>
-                                            ) : '-'}
-                                        </td>
-                                        <td className="px-6 py-4 text-sm">
-                                            {registrant.file_urls && registrant.file_urls['essay'] ? (
-                                                <Link href={registrant.file_urls['essay']} target="_blank" className="text-emerald-600 hover:underline text-xs flex items-center gap-1">
-                                                    Unduh
-                                                </Link>
-                                            ) : '-'}
-                                        </td>
+                                        <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{registrant.jabatan || '-'}</td>
+                                        <td className="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{registrant.phone_number || '-'}</td>
                                         <td className="px-6 py-4 text-center">
                                             <Link href={`/admin/pendaftar/${registrant.id}`}>
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-blue-600">

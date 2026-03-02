@@ -11,6 +11,7 @@ import {
     Building2,
     Briefcase,
     CheckCircle2,
+    XCircle,
     Loader2,
     ChevronRight,
     Calendar,
@@ -46,6 +47,7 @@ export default function DaftarPage() {
     const [form, setForm] = useState<FormData>(initialForm);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [errors, setErrors] = useState<Partial<FormData>>({});
 
     const validate = (): boolean => {
@@ -74,6 +76,7 @@ export default function DaftarPage() {
         e.preventDefault();
         if (!validate()) return;
 
+        setSubmitError(null);
         setLoading(true);
         try {
             const { error } = await supabase.from('registrants').insert([{
@@ -90,7 +93,7 @@ export default function DaftarPage() {
             if (error) throw error;
             setSuccess(true);
         } catch (err: any) {
-            alert('Terjadi kesalahan: ' + (err.message || 'Coba lagi.'));
+            setSubmitError(err.message || 'Terjadi kesalahan. Silakan coba lagi.');
         } finally {
             setLoading(false);
         }
@@ -384,9 +387,21 @@ export default function DaftarPage() {
                             )}
                         </button>
 
+                        {/* Error Notice */}
+                        {submitError && (
+                            <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700">
+                                <XCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                                <div>
+                                    <p className="font-semibold text-sm">Pendaftaran Gagal</p>
+                                    <p className="text-xs mt-0.5 text-red-600">{submitError}</p>
+                                </div>
+                            </div>
+                        )}
+
                         <p className="text-center text-xs text-slate-500">
                             Dengan mendaftar, kamu menyetujui ketentuan pendaftaran MAP NU 2026.
                         </p>
+
                     </form>
                 </div>
             </section>
