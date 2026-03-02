@@ -9,8 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 
 type Stats = {
     total: number;
-    ipnu: number;
-    ippnu: number;
+    rekan: number;
+    rekanita: number;
 };
 
 type Registrant = {
@@ -25,7 +25,7 @@ type Registrant = {
 
 export default function AdminDashboard() {
     const { toast } = useToast();
-    const [stats, setStats] = useState<Stats>({ total: 0, ipnu: 0, ippnu: 0 });
+    const [stats, setStats] = useState<Stats>({ total: 0, rekan: 0, rekanita: 0 });
     const [recentRegistrants, setRecentRegistrants] = useState<Registrant[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -65,10 +65,10 @@ export default function AdminDashboard() {
             if (allError) throw allError;
 
             const total = allData?.length || 0;
-            const ipnu = allData?.filter(r => r.gender === 'ipnu').length || 0;
-            const ippnu = allData?.filter(r => r.gender === 'ippnu').length || 0;
+            const rekan = allData?.filter(r => r.gender === 'rekan').length || 0;
+            const rekanita = allData?.filter(r => r.gender === 'rekanita').length || 0;
 
-            setStats({ total, ipnu, ippnu });
+            setStats({ total, rekan, rekanita });
 
             // Fetch recent 5 registrants
             const { data: recentData, error: recentError } = await supabase
@@ -93,13 +93,13 @@ export default function AdminDashboard() {
 
     const statCards = [
         { label: 'Total Pendaftar', value: stats.total, icon: Users, color: 'bg-blue-500', bgColor: 'bg-blue-50 dark:bg-blue-900/20' },
-        { label: 'Total IPNU', value: stats.ipnu, icon: Users, color: 'bg-green-600', bgColor: 'bg-green-50 dark:bg-green-900/20' },
-        { label: 'Total IPPNU', value: stats.ippnu, icon: Users, color: 'bg-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20' },
+        { label: 'Total Rekan (IPNU)', value: stats.rekan, icon: Users, color: 'bg-green-600', bgColor: 'bg-green-50 dark:bg-green-900/20' },
+        { label: 'Total Rekanita (IPPNU)', value: stats.rekanita, icon: Users, color: 'bg-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-900/20' },
     ];
 
     const getGenderLabel = (gender: string) => {
-        if (gender === 'ipnu') return 'IPNU';
-        if (gender === 'ippnu') return 'IPPNU';
+        if (gender === 'rekan') return 'Rekan (IPNU)';
+        if (gender === 'rekanita') return 'Rekanita (IPPNU)';
         return '-';
     };
 
@@ -173,7 +173,7 @@ export default function AdminDashboard() {
                                         <td className="px-6 py-4 text-sm text-slate-500">{index + 1}</td>
                                         <td className="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">{registrant.full_name}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${registrant.gender === 'ipnu' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${registrant.gender === 'rekan' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
                                                 {getGenderLabel(registrant.gender)}
                                             </span>
                                         </td>

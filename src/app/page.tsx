@@ -1,7 +1,6 @@
 import Link from "next/link";
-import GradientText from '../components/GradientText';
 import { Navbar } from '@/components/Navbar';
-import { StatusBadge } from "@/components/StatusBadge";
+import { HeroSection } from '@/components/HeroSection';
 import { Timeline } from '@/components/Timeline';
 
 export default function Home() {
@@ -9,49 +8,7 @@ export default function Home() {
     <>
 
       <Navbar />
-      {/* Hero Section */}
-      <section
-        className="relative z-10 pt-40 pb-20 px-6 min-h-screen flex flex-col justify-center items-center text-center bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('/images/bg-herosection.png')" }}
-      >
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/80 via-slate-50/40 to-slate-50/80 dark:from-slate-950/80 dark:via-slate-950/40 dark:to-slate-950/80 z-0" />
-
-        <div className="relative z-10 max-w-4xl mx-auto space-y-8 animate-fade-in-up">
-          <StatusBadge />
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-slate-900 leading-[0.95] dark:text-white">
-            <GradientText
-              colors={["#195de6", "#10b981", "#195de6", "#10b981", "#195de6"]}
-              animationSpeed={3}
-              showBorder={false}
-              className="font-bebas-neue"
-            >
-              Harlah & MAP NU
-            </GradientText>
-          </h1>
-          <p className="text-lg md:text-3xl text-slate-700 dark:text-slate-200 font-lobster font-normal italic max-w-5xl mx-auto leading-relaxed tracking-wide">
-            &quot;Meneguhkan Khidmat Pelajar Menuju Peradaban Mulia&quot;
-          </p>
-          <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 font-medium">
-            Harlah IPNU ke-72 & IPPNU ke-71 • Ramadhan 1447 H
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <Link
-              className="bg-primary hover:bg-blue-700 text-white text-base font-semibold h-12 px-8 rounded-full flex items-center justify-center shadow-lg hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1"
-              href="/daftar"
-            >
-              Info Pendaftaran
-            </Link>
-            <a
-              className="glass-panel text-slate-700 hover:text-slate-900 text-base font-semibold h-12 px-8 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-300"
-              href="#about"
-            >
-              Pelajari Lebih Lanjut
-            </a>
-          </div>
-        </div>
-
-      </section>
+      <HeroSection />
       {/* TERM OF REFERENCE (TOR) Section */}
       <section className="relative z-10 py-24 px-6" id="about">
         <div className="max-w-5xl mx-auto">

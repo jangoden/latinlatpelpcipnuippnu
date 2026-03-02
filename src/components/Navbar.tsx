@@ -36,16 +36,16 @@ export function Navbar() {
     return (
         <nav
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4 px-4 md:px-8",
-                isScrolled ? "top-2" : "top-6"
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-3 md:py-4 px-3 md:px-8",
+                isScrolled ? "top-2" : "top-4 md:top-6"
             )}
         >
             <div
                 className={cn(
                     "max-w-5xl mx-auto rounded-full transition-all duration-300 border border-transparent",
                     isScrolled
-                        ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border-white/20 px-6 py-3"
-                        : "bg-white/50 dark:bg-slate-900/40 backdrop-blur-sm px-6 py-4 shadow-sm hover:shadow-md hover:bg-white/70 dark:hover:bg-slate-900/60"
+                        ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg border-white/20 px-4 md:px-6 py-2 md:py-3"
+                        : "bg-white/50 dark:bg-slate-900/40 backdrop-blur-sm px-4 md:px-6 py-2 md:py-4 shadow-sm hover:shadow-md hover:bg-white/70 dark:hover:bg-slate-900/60"
                 )}
             >
                 <div className="flex items-center justify-between">
@@ -54,12 +54,12 @@ export function Navbar() {
                         href="/"
                         className="flex items-center gap-3 group focus:outline-none"
                     >
-                        <div className="relative w-12 h-12 group-hover:scale-105 transition-transform duration-300">
+                        <div className="relative w-14 h-14 md:w-16 md:h-16 group-hover:scale-105 transition-transform duration-300">
                             <Image
-                                src="/images/logo.webp"
+                                src="/images/logomapnu.webp"
                                 alt="IPNU IPPNU Ciamis Logo"
-                                width={48}
-                                height={48}
+                                width={64}
+                                height={64}
                                 className="object-contain w-full h-full"
                             />
                         </div>
@@ -111,12 +111,12 @@ export function Navbar() {
                             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                                 <SheetHeader className="mb-8 text-left">
                                     <SheetTitle className="flex items-center gap-3">
-                                        <div className="relative w-12 h-12">
+                                        <div className="relative w-14 h-14">
                                             <Image
-                                                src="/images/logo.webp"
+                                                src="/images/logomapnu.webp"
                                                 alt="IPNU Ciamis Logo"
-                                                width={48}
-                                                height={48}
+                                                width={56}
+                                                height={56}
                                                 className="object-contain w-full h-full"
                                             />
                                         </div>

@@ -12,7 +12,6 @@ import {
     ChevronLeft,
     ChevronRight,
     FileDown,
-    Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,25 +23,10 @@ type Registrant = {
     nik: string;
     email: string;
     gender: string;
-    nia?: string;
-    tshirt_size?: string;
     org_name: string;
-    instagram_video_link: string;
-    file_urls: { [key: string]: string } | null;
-    created_at: string;
-    // Additional fields for Export
-    username?: string;
-    birth_place?: string;
-    birth_date?: string;
-    address?: string;
-    province?: string;
-    regency?: string;
-    district?: string;
-    village?: string;
+    jabatan?: string;
     phone_number?: string;
-    hobby?: string;
-    status?: string;
-    org_level?: string;
+    created_at: string;
 };
 
 export default function PendaftarPage() {
@@ -85,11 +69,11 @@ export default function PendaftarPage() {
         try {
             let query = supabase
                 .from('registrants')
-                .select('id, full_name, nik, email, gender, nia, tshirt_size, org_name, instagram_video_link, file_urls, created_at', { count: 'exact' });
+                .select('id, full_name, nik, email, gender, org_name, jabatan, phone_number, created_at', { count: 'exact' });
 
             // Apply search filter
             if (searchQuery) {
-                query = query.or(`full_name.ilike.%${searchQuery}%,nik.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%`);
+                query = query.or(`full_name.ilike.%${searchQuery}%,nik.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,org_name.ilike.%${searchQuery}%`);
             }
 
             // Pagination
@@ -225,8 +209,8 @@ export default function PendaftarPage() {
     };
 
     const getGenderLabel = (gender: string) => {
-        if (gender === 'ipnu') return 'IPNU';
-        if (gender === 'ippnu') return 'IPPNU';
+        if (gender === 'rekan') return 'Rekan (IPNU)';
+        if (gender === 'rekanita') return 'Rekanita (IPPNU)';
         return '-';
     };
 
@@ -284,8 +268,8 @@ export default function PendaftarPage() {
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nama</th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Gender</th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Delegasi</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Instagram</th>
-                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Esai</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Jabatan</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">No. HP</th>
                                     <th className="px-4 py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
@@ -302,28 +286,16 @@ export default function PendaftarPage() {
                                             <td className="px-4 py-3 text-sm text-slate-500">{(currentPage - 1) * itemsPerPage + idx + 1}</td>
                                             <td className="px-4 py-3">
                                                 <p className="text-sm font-medium text-slate-900 dark:text-white">{r.full_name}</p>
-                                                <p className="text-xs text-slate-500 md:hidden">{getGenderLabel(r.gender)}</p>
+                                                <p className="text-xs text-slate-400">{r.email}</p>
                                             </td>
                                             <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${r.gender === 'ipnu' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${r.gender === 'rekan' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}`}>
                                                     {getGenderLabel(r.gender)}
                                                 </span>
                                             </td>
                                             <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{r.org_name || '-'}</td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {r.instagram_video_link ? (
-                                                    <a href={r.instagram_video_link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1">
-                                                        <Eye className="w-3 h-3" /> Lihat
-                                                    </a>
-                                                ) : '-'}
-                                            </td>
-                                            <td className="px-4 py-3 text-sm">
-                                                {r.file_urls && r.file_urls['essay'] ? (
-                                                    <a href={r.file_urls['essay']} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:text-emerald-700 hover:underline flex items-center gap-1">
-                                                        <Download className="w-3 h-3" /> Unduh
-                                                    </a>
-                                                ) : '-'}
-                                            </td>
+                                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{r.jabatan || '-'}</td>
+                                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{r.phone_number || '-'}</td>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center justify-center gap-1">
                                                     <Link href={`/admin/pendaftar/${r.id}`}>
